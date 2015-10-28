@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#EFEFEF"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.6dp"
+            android:background="@color/pop_line" />
+
+        <LinearLayout
+            android:id="@+id/linALL"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="18dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="55dp" >
+
+                <TextView
+                    android:id="@+id/tv0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="事件标题:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv0" >
+                </EditText>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/clear"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="55dp" >
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="诉求人:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/etSuqiuren"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv1" >
+                </EditText>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/clear"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEventFrom"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/item_bg" >
+
+                <TextView
+                    android:id="@+id/tv7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="事件来源:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvEventFrom"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv7"
+                    android:text="请点击选择事件来源"
+                    android:textColor="@color/gray_user_bg"
+                    android:textSize="18dp" >
+                </TextView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/detail_arrow" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEventType"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/item_bg" >
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="事件类型:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvEventType"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv2"
+                    android:text="请点击选择事件类型"
+                    android:textColor="@color/gray_user_bg"
+                    android:textSize="18dp" >
+                </TextView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/detail_arrow" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEventStatus"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/item_bg" >
+
+                <TextView
+                    android:id="@+id/tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="事件状态:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvEventStatus"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv4"
+                    android:text="请点击选择事件状态"
+                    android:textColor="@color/gray_user_bg"
+                    android:textSize="18dp" >
+                </TextView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/detail_arrow" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlEventYes"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/item_bg" >
+
+                <TextView
+                    android:id="@+id/tv44"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="满意度:"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tvEventYes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/tv44"
+                    android:text="请点击选择满意度"
+                    android:textColor="@color/gray_user_bg"
+                    android:textSize="18dp" >
+                </TextView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/detail_arrow" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.6dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/pop_line" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.6dp"
+            android:background="@color/pop_line" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="18dp"
+            android:background="@drawable/item_bg" >
+
+            <TextView
+                android:id="@+id/tv11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="受理时间  "
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvStartTime01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tv11"
+                android:background="@drawable/time_bg"
+                android:text="                      "
+                android:textColor="@color/black" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvxian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/tvStartTime01"
+                android:text="─"
+                android:textColor="@color/black" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvEndTime01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tvxian"
+                android:background="@drawable/time_bg"
+                android:text="                      "
+                android:textColor="@color/black" >
+            </TextView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.6dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/pop_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="18dp"
+            android:background="@drawable/item_bg" >
+
+            <TextView
+                android:id="@+id/tv13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="结案时间  "
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvStartTime02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tv13"
+                android:background="@drawable/time_bg"
+                android:text="                      "
+                android:textColor="@color/black" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvxian1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/tvStartTime02"
+                android:text="─"
+                android:textColor="@color/gray_user_bg" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvEndTime02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tvxian1"
+                android:background="@drawable/time_bg"
+                android:text="                      "
+                android:textColor="@color/black" >
+            </TextView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.6dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/pop_line" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/calendar_btn_bg"
+        android:text="确认"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>

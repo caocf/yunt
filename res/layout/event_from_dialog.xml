@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/event_type_layout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/com_tenpay_android_dialog_bg"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/lvFrom"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/comment_divider_line"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,278 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bepo"
+    android:versionCode="2"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="16" />
+
+    <permission
+        android:name="com.bepo.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <!-- 访问网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 允许读取电话的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 允许程序访问有关GSM网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 通过基站获取GPS信息 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 通过网络获取GPS信息 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- -改变wifi状态 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- -改变配置信息 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 保持唤醒状态 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 允许写入操作 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 访问照相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- jpush 所需权限 -->
+    <uses-permission android:name="com.bepo.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- 微信所需权限 -->
+    <code class="code" >
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </code>
+
+    <!-- Optional for location -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <application
+        android:name=".core.ApplicationController"
+        android:allowBackup="true"
+        android:icon="@drawable/yunt"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- 高德地图key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="fc733b2b1d6f1786a579c555698c7af1" />
+        <!-- 极光 key -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="be6bfd1a89e4134d68c19d57" />
+
+        <!-- GPS打点服务 -->
+        <service android:name="com.dykj.trajectory.GpsService" />
+
+        <activity
+            android:name=".ui.SplashAct"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.SampleActivity" />
+        <activity android:name=".ui.MainAct" />
+
+        <!-- 事件办理 开始 -->
+        <activity
+            android:name="com.dykj.contradiction.EventAccept"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity android:name="com.dykj.contradiction.EventQueryTodo" />
+        <activity android:name="com.dykj.contradiction.EventQueryHistrory" />
+        <activity android:name="com.dykj.contradiction.EventQueryAll" />
+        <activity android:name="com.dykj.contradiction.EventQueryCancel" />
+        <activity
+            android:name="com.dykj.contradiction.EventDetail"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+
+        <!-- 事件办理结束 -->
+
+        <activity
+            android:name="com.dykj.trajectory.GPSDialog"
+            android:theme="@style/MyDialogStyle" >
+        </activity>
+        <activity android:name="com.dykj.diary.DiarySubmit" />
+        <activity android:name="com.dykj.diary.DiaryList" />
+
+        <!-- 其他 -->
+        <activity android:name=".ui.LoginAct" />
+        <activity android:name=".pickpic.ImgFileListActivity" />
+        <activity android:name=".pickpic.ImgsActivity" />
+        <activity android:name=".view.MapPositionSelect" />
+        <activity android:name=".view.MapLocation" />
+        <activity android:name=".view.Datetimepicker" />
+
+        <!-- 云停宝宝 -->
+        <activity android:name="com.yunt.ui.HomeAct" />
+        <activity android:name="com.yunt.ui.ParkDetailAct" />
+        <activity android:name="com.yunt.ui.MainActivity" />
+        <activity android:name="com.yunt.ui.LoginActivity" />
+        <activity android:name="com.yunt.ui.SubmitCarOwnerInfo" />
+        <activity android:name="com.yunt.ui.SubmitParkOwnerInfo" />
+        <activity android:name="com.yunt.ui.CarPortOrderDetails" />
+        <activity android:name="com.yunt.ui.MyOrderList" />
+        <activity android:name="com.yunt.ui.AddressAutoSearchActivity" />
+        <activity android:name="com.yunt.ui.NearCarPortListActivity" />
+        <activity android:name="com.yunt.ui.AboutCompany" />
+        <activity android:name="com.yunt.ui.MyMessage" />
+        <activity android:name="com.yunt.ui.MessageInfo" />
+        <activity android:name="com.yunt.ui.MyCarPortList" />
+        <activity android:name="com.yunt.ui.SubmitPark" />
+        <activity android:name="com.yunt.ui.SubmitPark2" />
+        <activity android:name="com.yunt.ui.UserInfoSetting" />
+        <activity android:name="com.yunt.ui.CityListAct" />
+        <activity android:name="com.yunt.ui.VoucherList" />
+        <activity android:name="com.yunt.ui.MyWallet" />
+        <activity android:name="com.yunt.ui.WithdrawalsAct" />
+        <activity android:name="com.yunt.ui.PayInfo4Withdrawals" />
+        <activity android:name="com.zxing.EPQRAct" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.yunt.ui.CarPortDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- For test only 测试的主程序 -->
+        <activity
+            android:name="com.example.jpushdemo.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <!-- For test only 测试高级功能 -->
+        <activity
+            android:name="com.example.jpushdemo.PushSetActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <!-- For test only 测试设置 -->
+        <activity
+            android:name="com.example.jpushdemo.SettingActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <!-- For test only 测试状态通知栏，需要打开的Activity -->
+        <activity android:name="com.example.jpushdemo.TestActivity" >
+            <intent-filter>
+                <action android:name="jpush.testAction" />
+
+                <category android:name="jpush.testCategory" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.bepo" />
+            </intent-filter>
+        </activity>
+        <!-- Required  SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+
+        <!-- Required SDK 核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required  显示通知栏 -->
+                <category android:name="com.bepo" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <receiver
+            android:name="com.example.jpushdemo.MyReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.bepo" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

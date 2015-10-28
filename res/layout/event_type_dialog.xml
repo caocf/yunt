@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/event_type_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/popup_full_bright"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/lvFirstType"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:divider="@drawable/comment_divider_line"
+            android:scrollbars="none" >
+        </ListView>
+
+        <ListView
+            android:background="@color/event_type_first_item_bg"
+            android:id="@+id/lvSecondType"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@drawable/comment_divider_line"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>
