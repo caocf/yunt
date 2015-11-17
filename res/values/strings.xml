@@ -12,6 +12,21 @@
     <string name="soft_updating">正在更新</string>
     <string name="soft_update_cancel">取消</string>
     <string name="spin_prompt"> 全部 </string>
+    <string name="errcode_success">发送成功</string>
+    <string name="errcode_cancel">发送取消</string>
+    <string name="errcode_deny">发送被拒绝</string>
+    <string name="errcode_unknown">发送返回</string>
+
+    <!-- 图片浏览 -->
+    <string name="only_choose_num">超出可选图片张数</string>
+    <string name="finish">完成</string>
+    <string name="invalidSD">sdcard无效或没有插入！</string>
+    <string name="photo">选择相册</string>
+    <string name="album">相册</string>
+    <string name="preview">预览</string>
+    <string name="unfinished">完成</string>
+    <string name="camera_cancel">取消</string>
+    <string name="no_photo">相册没有图片</string>
 
     <string-array name="cities">
         <item>全部</item>
@@ -19,7 +34,7 @@
         <item>已出租</item>
         <item>已下架</item>
         <item>核审中</item>
-        <item>未通过核审</item>
+        <item>未通过</item>
     </string-array>
 
     <string name="hello">Hello World, JPush!</string>

@@ -28,6 +28,7 @@ import com.bepo.core.PathConfig;
 import com.bepo.utils.MyTextUtils;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 public class MyWallet extends BaseAct {
 
@@ -113,11 +114,18 @@ public class MyWallet extends BaseAct {
 			public void onResponse(String response) {
 				dismissDialog();
 				String jsondata = response.toString();
-				Map<String, String> tempMap = JSON.parseObject(jsondata, new TypeReference<Map<String, String>>() {
-				});
-				YoYo.with(Techniques.DropOut).duration(1000).playOn(findViewById(R.id.rlCircle));
-				tvYuer.setText(tempMap.get("MONEY"));
-				money = tempMap.get("MONEY");
+
+				if (!MyTextUtils.isEmpty(jsondata)) {
+					Map<String, String> tempMap = JSON.parseObject(jsondata,
+							new TypeReference<Map<String, String>>() {
+							});
+					YoYo.with(Techniques.DropOut).duration(1000).playOn(findViewById(R.id.rlCircle));
+					tvYuer.setText(tempMap.get("MONEY"));
+					money = tempMap.get("MONEY");
+				} else {
+					ToastUtils.showSuperToastAlert(getApplicationContext(), "Êý¾ÝÒì³£");
+					finish();
+				}
 
 			}
 		}, new Response.ErrorListener() {
@@ -129,5 +137,4 @@ public class MyWallet extends BaseAct {
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 
 	}
-
 }

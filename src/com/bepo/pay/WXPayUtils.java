@@ -17,7 +17,6 @@ import android.util.Log;
 import android.util.Xml;
 
 import com.bepo.core.ApplicationController;
-import com.bepo.utils.MyTextUtils;
 import com.tencent.mm.sdk.modelpay.PayReq;
 
 public class WXPayUtils {

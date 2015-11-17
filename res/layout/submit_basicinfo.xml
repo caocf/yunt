@@ -77,7 +77,7 @@
                 android:text="小区全称"
                 android:textSize="15sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etXiaoqu"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -85,7 +85,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@null"
                 android:gravity="right|center_vertical"
-                android:hint="请输入车位所在小区全称"
+                android:hint="如武夷绿洲赏桂苑"
                 android:textSize="15sp" />
         </RelativeLayout>
 
@@ -95,6 +95,77 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10sp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="车库类型:"
+                android:textSize="15sp" />
+
+            <GridView
+                android:id="@+id/TypeGridview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:columnWidth="40dp"
+                android:horizontalSpacing="4dp"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="6dp" >
+            </GridView>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/line" />
+
+        <RelativeLayout
+            android:id="@+id/rlChekuName"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="车库名称:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/etDikuName"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@null"
+                android:gravity="right|center_vertical"
+                android:hint="请输入车库编号/名称"
+                android:imeOptions="actionNext"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/line" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -119,6 +190,7 @@
                 android:background="@null"
                 android:gravity="right|center_vertical"
                 android:hint="请输入车位编号(选填)"
+                android:imeOptions="actionNext"
                 android:textSize="15sp" />
         </RelativeLayout>
 
@@ -144,7 +216,7 @@
                 android:textSize="16sp" />
 
             <RelativeLayout
-                android:layout_width="170dp"
+                android:layout_width="180dp"
                 android:layout_height="45dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -188,6 +260,8 @@
                     android:background="@null"
                     android:gravity="left|center_vertical"
                     android:hint="点击输入车牌"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
                     android:maxLength="6"
                     android:textColor="@color/white"
                     android:textColorHint="#A7C1FC"

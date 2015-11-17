@@ -27,7 +27,6 @@ import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.utils.MyTextUtils;
-import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 public class MyCarPortList extends BaseAct {
 
@@ -37,7 +36,7 @@ public class MyCarPortList extends BaseAct {
 	private RelativeLayout rlRight;
 
 	MyCarportListAdapter mMyCarportListAdapter;
-	ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+	ArrayList<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
 	Boolean isFirst = true;
 
 	@Override
@@ -70,7 +69,7 @@ public class MyCarPortList extends BaseAct {
 			@Override
 			public void onClick(View arg0) {
 
-				Intent intent = new Intent(MyCarPortList.this, SubmitPark.class);
+				Intent intent = new Intent(MyCarPortList.this, SubmitPark2.class);
 				intent.putExtra("code", "");
 				startActivity(intent);
 			}
@@ -98,7 +97,7 @@ public class MyCarPortList extends BaseAct {
 				TextView tv = (TextView) view;
 				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
 				tv.setTextSize(20.0f); // 设置大小
-				tv.setGravity(android.view.Gravity.CENTER); // 设置居中
+				tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL); // 设置居中
 
 				switch (id) {
 				case 0:
@@ -138,17 +137,18 @@ public class MyCarPortList extends BaseAct {
 	}
 
 	private void getData(String typeCode) {
-
+		showDialog();
 		String url = PathConfig.ADDRESS + "/base/breleasepark/queryList?codePrakType=" + typeCode;
 		url = MyTextUtils.urlPlusAndFoot(url);
 
 		StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
+				dismissDialog();
 				String jsondata = response.toString();
 				data.clear();
-				data = (ArrayList<HashMap<String, String>>) JSON.parseObject(jsondata,
-						new TypeReference<ArrayList<HashMap<String, String>>>() {
+				data = (ArrayList<HashMap<String, Object>>) JSON.parseObject(jsondata,
+						new TypeReference<ArrayList<HashMap<String, Object>>>() {
 						});
 
 				if (data.size() > 0) {
@@ -159,7 +159,7 @@ public class MyCarPortList extends BaseAct {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-
+				dismissDialog();
 			}
 		});
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);

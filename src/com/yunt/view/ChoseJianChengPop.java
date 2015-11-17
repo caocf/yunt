@@ -4,17 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.bepo.R;
-import com.bepo.ui.LoginAct;
-import com.bepo.ui.MainAct;
-import com.github.johnpersano.supertoasts.util.ToastUtils;
-import com.yunt.ui.SubmitPark2;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -24,12 +14,16 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.bepo.R;
+import com.yunt.ui.SubmitPark2;
 
 public class ChoseJianChengPop extends PopupWindow {
 

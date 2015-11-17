@@ -10,11 +10,51 @@
         android:background="@drawable/home_main_bg"
         android:orientation="vertical" >
 
-        <include
-            android:id="@+id/top"
-            layout="@layout/topbar" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/titlebar" >
+
+            <LinearLayout
+                android:id="@+id/linBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/tvCancle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/titlebar_btn"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="提交车位"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="13dp"
+                android:text=""
+                android:textColor="@color/tab_gary"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/linStep"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
             android:background="@color/white"
@@ -28,17 +68,19 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:id="@+id/ivStep01"
                     android:layout_width="10dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/submit_1_p" />
 
                 <TextView
+                    android:id="@+id/tvStep01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="基本信息"
-                    android:textColor="@color/black"
+                    android:textColor="@color/submit_yellow"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -55,21 +97,24 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:id="@+id/ivStep02"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/submit_2_n" />
 
                 <TextView
+                    android:id="@+id/tvStep02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="出租信息"
-                    android:textColor="@color/black"
+                    android:text="门禁类型"
+                    android:textColor="@color/submit_gray"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/ivLine02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -82,414 +127,94 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:id="@+id/ivStep03"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/submit_3_n" />
 
                 <TextView
+                    android:id="@+id/tvStep03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="可租时间"
-                    android:textColor="@color/black"
+                    android:text="时间价格"
+                    android:textColor="@color/submit_gray"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/ivLine03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/shenlv_p" />
+                android:background="@drawable/shenlv_p"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <ImageView
+                    android:id="@+id/ivStep04"
                     android:layout_width="20dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/submit_4_n" />
 
                 <TextView
+                    android:id="@+id/tvStep04"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="信息位置"
-                    android:textColor="@color/black"
+                    android:textColor="@color/submit_gray"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/basicInfo4submit"
-            android:name="com.yunt.view.BasicInfo4SubmitFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/bg_listitem_shot"
             android:orientation="vertical" >
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:id="@+id/tv02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="小区门禁类型:"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_toRightOf="@id/tv02"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/qq_login_new_user_disable"
-                        android:gravity="center"
-                        android:text=" 地上 "
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
-                        android:background="@drawable/qq_login_new_user_unpressed"
-                        android:gravity="center"
-                        android:text=" 地下 "
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/line" />
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="车库有无门禁:"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/qq_login_new_user_disable"
-                        android:gravity="center"
-                        android:text=" 地上 "
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
-                        android:background="@drawable/qq_login_new_user_unpressed"
-                        android:gravity="center"
-                        android:text=" 地下 "
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/line" />
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="车库类型:"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/qq_login_new_user_disable"
-                        android:gravity="center"
-                        android:text=" 地上 "
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="30dp"
-                        android:background="@drawable/qq_login_new_user_unpressed"
-                        android:gravity="center"
-                        android:text=" 地下 "
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/line" />
 
             <LinearLayout
-                android:id="@+id/linImage"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="车位图片:"
-                    android:textSize="15sp" />
+                android:orientation="vertical" >
 
                 <LinearLayout
-                    android:id="@+id/linPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:id="@+id/linFragment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/ivPhoto"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/add_photo"
-                    android:scaleType="fitXY" />
+                <RelativeLayout
+                    android:id="@+id/rlSubmit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dip"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_big" >
 
-                <TextView
-                    android:id="@+id/tvImageDescribe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/gray_user_bg"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tvSubmit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="下一步"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </RelativeLayout>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/bg_listitem_shot"
-            android:orientation="vertical" >
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="日租价格:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="请输入车位所在小区全称"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="月租价格:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="请输入车位所在小区全称"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="全天出租:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="请输入车位所在小区全称"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="开始时间:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="14:46"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="结束时间:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="18:58"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="可租日期:"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:gravity="right|center_vertical"
-                    android:hint="请输入车位所在小区全称"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -497,6 +222,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#b0000000"
+        android:orientation="vertical"
         android:visibility="gone" >
     </LinearLayout>
 

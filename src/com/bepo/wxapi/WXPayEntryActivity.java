@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bepo.R;
 import com.bepo.pay.PayID;
@@ -38,6 +39,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onReq(BaseReq req) {
+
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 					resp.errStr + ";code=" + String.valueOf(resp.errCode)));
 			builder.show();
 		}
+		finish();
 
 	}
 }

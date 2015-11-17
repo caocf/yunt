@@ -52,6 +52,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.github.johnpersano.supertoasts.util.ToastUtils;
 import com.yunt.ui.RouteTask.OnRouteCalculateListener;
+import com.yunt.view.SubmitParkSucess;
 
 public class HomeAct extends BaseAct implements OnCameraChangeListener, OnMarkerClickListener,
 		OnMapLoadedListener, OnLocationGetListener, OnClickListener, OnRouteCalculateListener,
@@ -140,7 +141,7 @@ public class HomeAct extends BaseAct implements OnCameraChangeListener, OnMarker
 		mMapView = (MapView) findViewById(R.id.map);
 		mMapView.onCreate(savedInstanceState);
 		mAmap = mMapView.getMap();
-		mAmap.getUiSettings().setZoomControlsEnabled(false);
+		mAmap.getUiSettings().setZoomControlsEnabled(true);
 
 		mAmap.setOnMapLoadedListener(this);
 		mAmap.setOnCameraChangeListener(this);

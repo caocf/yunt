@@ -2,6 +2,7 @@ package com.bepo.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,8 +22,7 @@ public class SelectPicPop extends PopupWindow {
 
 	public SelectPicPop(Activity context, OnClickListener itemsOnClick) {
 		super(context);
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mMenuView = inflater.inflate(R.layout.alert_dialog, null);
 		btn_take_photo = (Button) mMenuView.findViewById(R.id.btn_take_photo);
 		btn_pick_photo = (Button) mMenuView.findViewById(R.id.btn_pick_photo);
@@ -48,7 +48,12 @@ public class SelectPicPop extends PopupWindow {
 		// 设置SelectPicPopupWindow弹出窗体动画效果
 		this.setAnimationStyle(R.style.AnimationFade);
 		// 实例化一个ColorDrawable颜色为半透明
-//		ColorDrawable dw = new ColorDrawable(0xb0000000);
+		// ColorDrawable dw = new ColorDrawable(0xb0000000);
+
+		this.setBackgroundDrawable(new BitmapDrawable());
+		this.setFocusable(true);
+		this.setOutsideTouchable(true);
+
 		ColorDrawable dw = new ColorDrawable();
 		// 设置SelectPicPopupWindow弹出窗体的背景
 		this.setBackgroundDrawable(dw);

@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -25,8 +25,8 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.help.Inputtips;
-import com.amap.api.services.help.Tip;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
+import com.amap.api.services.help.Tip;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -36,7 +36,6 @@ import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.utils.AMapUtil;
-import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 public class NearCarPortListActivity extends BaseAct implements TextWatcher, OnClickListener,
 		OnGeocodeSearchListener {

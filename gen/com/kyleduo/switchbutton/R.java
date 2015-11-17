@@ -31,15 +31,15 @@ public final class R {
 		public static final int thumb_width = 0x7f010008;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02010c;
-		public static final int md_back_off = 0x7f020183;
-		public static final int md_back_on = 0x7f020184;
-		public static final int md_switch_thumb_disable = 0x7f020185;
-		public static final int md_switch_thumb_off_normal = 0x7f020186;
-		public static final int md_switch_thumb_off_pressed = 0x7f020187;
-		public static final int md_switch_thumb_on_normal = 0x7f020188;
-		public static final int md_switch_thumb_on_pressed = 0x7f020189;
-		public static final int md_thumb = 0x7f02018a;
+		public static final int ic_launcher = 0x7f02011b;
+		public static final int md_back_off = 0x7f0201a1;
+		public static final int md_back_on = 0x7f0201a2;
+		public static final int md_switch_thumb_disable = 0x7f0201a3;
+		public static final int md_switch_thumb_off_normal = 0x7f0201a4;
+		public static final int md_switch_thumb_off_pressed = 0x7f0201a5;
+		public static final int md_switch_thumb_on_normal = 0x7f0201a6;
+		public static final int md_switch_thumb_on_pressed = 0x7f0201a7;
+		public static final int md_thumb = 0x7f0201a8;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f080000;

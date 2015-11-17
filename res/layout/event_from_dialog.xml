@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:gravity="center_horizontal"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal" >
 
     <LinearLayout
         android:id="@+id/event_type_layout"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/com_tenpay_android_dialog_bg"
-        android:orientation="horizontal" >
+        android:layout_width="240dp"
+        android:layout_height="400dp"
+        android:background="@drawable/yuanjiao_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="您可能位于以下哪个小区:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#EBEBEB" />
 
         <ListView
             android:id="@+id/lvFrom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#FAFAFA"
             android:divider="@drawable/comment_divider_line"
             android:scrollbars="none" >
         </ListView>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#EBEBEB" />
+
+        <TextView
+            android:id="@+id/tvCancle"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@color/tag_blue"
+            android:gravity="center"
+            android:text="没有找到,去手动输入"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

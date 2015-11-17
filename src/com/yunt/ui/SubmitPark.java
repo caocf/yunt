@@ -326,7 +326,6 @@ public class SubmitPark extends BaseAct implements OnClickListener, AMapLocation
 	public void onEventMainThread(AllGridTreeBean mAllGridTreeBean) {
 		tvCommunity.setText(mAllGridTreeBean.getNAME());
 		CarParkCode = mAllGridTreeBean.getCODE();
-
 	}
 
 	@Override

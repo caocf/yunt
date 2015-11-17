@@ -29,8 +29,8 @@ import com.bepo.R;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 
-public class MapLocation extends BaseAct implements OnClickListener, OnCameraChangeListener, OnGeocodeSearchListener,
-		AMapLocationListener {
+public class MapLocation extends BaseAct implements OnClickListener, OnCameraChangeListener,
+		OnGeocodeSearchListener, AMapLocationListener {
 
 	private AMap aMap;
 	private UiSettings mUiSettings;
@@ -55,15 +55,16 @@ public class MapLocation extends BaseAct implements OnClickListener, OnCameraCha
 	private void initViews() {
 
 		if (aMap == null) {
-			aMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_amap)).getMap();
+			aMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.location_amap))
+					.getMap();
 			mUiSettings = aMap.getUiSettings();
 			// mUiSettings.setCompassEnabled(true);// 指南针
 			mUiSettings.setTiltGesturesEnabled(true); // 设置地图是否可以倾斜
 			mUiSettings.setRotateGesturesEnabled(false);// 设置地图是否可以旋转
 			mUiSettings.setScrollGesturesEnabled(true);// 设置地图是否可以手势滑动
 			mUiSettings.setZoomGesturesEnabled(true);// 设置地图是否可以手势缩放大小
-			aMap.setOnCameraChangeListener(this); // 地图移动事件
 			mUiSettings.setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+			aMap.setOnCameraChangeListener(this); // 地图移动事件
 			aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
 
 			// 地图 定位
@@ -73,14 +74,13 @@ public class MapLocation extends BaseAct implements OnClickListener, OnCameraCha
 
 			Intent temp = this.getIntent();
 			if (temp != null) {
-				
-				
-				String sss=temp.getExtras().getString("x");
-				Double ssss=Double.parseDouble(sss);
-				
+
+				String sss = temp.getExtras().getString("x");
+				Double ssss = Double.parseDouble(sss);
+
 				aMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(Double
-						.parseDouble(temp.getExtras().getString("y")), Double.parseDouble(temp.getExtras().getString(
-						"x"))), 17, 30, 0)), 1000, null);
+						.parseDouble(temp.getExtras().getString("y")), Double.parseDouble(temp.getExtras()
+						.getString("x"))), 17, 30, 0)), 1000, null);
 			}
 
 			// 按钮事件
@@ -115,24 +115,25 @@ public class MapLocation extends BaseAct implements OnClickListener, OnCameraCha
 
 	}
 
-//	@Override
-//	public void onLocationChanged(Location aLocation) {
-//		if (aLocation != null) {
-//			LatLng latLng = new LatLng(aLocation.getLatitude(), aLocation.getLongitude());
-//			String desc = "";
-//			Bundle locBundle = aLocation.getExtras();
-//			if (locBundle != null) {
-//				desc = locBundle.getString("desc");
-//			}
-//			addressName = desc;
-//			aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-//			mAMapLocationManager.removeUpdates(this);
-//			mAMapLocationManager.destory();
-//		} else {
-//			addressName = "无法获取位置信息";
-//			txtPointLocation.setText(addressName);
-//		}
-//	}
+	// @Override
+	// public void onLocationChanged(Location aLocation) {
+	// if (aLocation != null) {
+	// LatLng latLng = new LatLng(aLocation.getLatitude(),
+	// aLocation.getLongitude());
+	// String desc = "";
+	// Bundle locBundle = aLocation.getExtras();
+	// if (locBundle != null) {
+	// desc = locBundle.getString("desc");
+	// }
+	// addressName = desc;
+	// aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+	// mAMapLocationManager.removeUpdates(this);
+	// mAMapLocationManager.destory();
+	// } else {
+	// addressName = "无法获取位置信息";
+	// txtPointLocation.setText(addressName);
+	// }
+	// }
 
 	@Override
 	public void onCameraChange(CameraPosition position) {
@@ -200,7 +201,7 @@ public class MapLocation extends BaseAct implements OnClickListener, OnCameraCha
 	@Override
 	public void onLocationChanged(Location arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -18,50 +15,92 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ImageView.ScaleType;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bepo.R;
-import com.bepo.bean.AllGridTreeBean;
+import com.bepo.adapter.ChekuTypeAdapter;
+import com.bepo.core.ApplicationController;
 import com.bepo.core.PathConfig;
-import com.bepo.utils.CameraUtil;
+import com.bepo.utils.MyTextUtils;
 import com.bepo.view.MapLocation;
-import com.github.johnpersano.supertoasts.util.ToastUtils;
 import com.yunt.ui.LocationTask;
 import com.yunt.ui.OnLocationGetListener;
 import com.yunt.ui.PositionEntity;
-import com.yunt.ui.SubmitPark;
+
+/**
+ * @date 2015年11月04日10:45:16
+ * @author kefanbufan
+ * @描述 提交车位 基本信息页
+ */
 
 public class BasicInfo4SubmitFragment extends Fragment implements OnClickListener, OnLocationGetListener {
 
-	public View view;
-	EditText etXiaoqu, etBianhao, etCarNumber;
-	RelativeLayout rlJiancheng, rlLocation;
-	static TextView tvJiancheng, tvMapAddress;
-	ChoseJianChengPop mChoseJianChengPop;
-	LinearLayout linMain;
-
-	String positionX, positionY;
 	private LocationTask mLocationTask;
-	ArrayList<HashMap<String, String>> lstImageItem = new ArrayList<HashMap<String, String>>();
+	View view;
+	LinearLayout linMain;// 用于弹出 pop 的定位,和背景变灰
+
+	// 地图定位
+	RelativeLayout rlLocation;// 地图定位外部点击控件
+	static TextView tvMapAddress;// 地图定位位置显示
+	String positionX, positionY;// 地图定位返回的经纬度坐标
+
+	// 小区全称
+	public static TextView etXiaoqu;// 小区全称,可根据经纬度获取列表点击选择
+	public static String CarParkCode;// 物业维护的 小区code(用于传递 submipark2)
+
+	// 车库相关
+	public static RelativeLayout rlChekuName;
+	GridView TypeGridview;// 车库类型选择控件
+	ChekuTypeAdapter chekuTypeAdapter;// 车库类型adapter
+	public static String CodePosition = "1858";// 车库类型 code(用于传递 submitpark2)
+
+	EditText etDikuName;// 车库名称
+	EditText etBianhao;// 车位编号
+
+	// 蓝车牌相关
+	RelativeLayout rlJiancheng;// 车牌简称部分外边点击时间附着控件
+	static TextView tvJiancheng;// 车牌简称部分
+	EditText etCarNumber;// 车牌数字部分
+	ChoseJianChengPop mChoseJianChengPop;// 省简称弹出 pop
+	ArrayList<HashMap<String, String>> lstImageItem = new ArrayList<HashMap<String, String>>();// 省简称数据
+
+	// static RelativeLayout rlMenjinName;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.submit_basicinfo, container, false);
 
-		etXiaoqu = (EditText) view.findViewById(R.id.etXiaoqu);
+		etXiaoqu = (TextView) view.findViewById(R.id.etXiaoqu);
+		etXiaoqu.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getActivity(), ChangXiaoquName.class);
+				intent.putExtra("et", etXiaoqu.getText().toString());
+				intent.putExtra("positionX", positionX);
+				intent.putExtra("positionY", positionY);
+				getActivity().startActivity(intent);
+			}
+		});
+
 		etBianhao = (EditText) view.findViewById(R.id.etBianhao);
+		etDikuName = (EditText) view.findViewById(R.id.etDikuName);
 
 		etCarNumber = (EditText) view.findViewById(R.id.etCarNumber);
 		etCarNumber.addTextChangedListener(tw);
 
 		rlJiancheng = (RelativeLayout) view.findViewById(R.id.rlJiancheng);
 		rlJiancheng.setOnClickListener(this);
+
+		rlChekuName = (RelativeLayout) view.findViewById(R.id.rlChekuName);
+		rlChekuName.setVisibility(View.GONE);
 
 		rlLocation = (RelativeLayout) view.findViewById(R.id.rlLocation);
 		rlLocation.setOnClickListener(this);
@@ -70,12 +109,48 @@ public class BasicInfo4SubmitFragment extends Fragment implements OnClickListene
 		tvJiancheng = (TextView) view.findViewById(R.id.tvJiancheng);
 		tvMapAddress = (TextView) view.findViewById(R.id.tvMapAddress);
 
+		TypeGridview = (GridView) view.findViewById(R.id.TypeGridview);
+		initData();
+
 		// 定位当前位置
 		mLocationTask = LocationTask.getInstance(getActivity());
 		mLocationTask.setOnLocationGetListener(this);
 		mLocationTask.startSingleLocate();
 
 		return view;
+	}
+
+	private void initData() {
+
+		String url = PathConfig.ADDRESS + "/sys/sysdicvalue/queryDicvalue?name=CODE_POSITION";
+		url = MyTextUtils.urlPlusAndFoot(url);
+
+		StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				ArrayList<HashMap<String, String>> typeData = new ArrayList<HashMap<String, String>>();
+				String jsondata = response.toString();
+				typeData.clear();
+				typeData = (ArrayList<HashMap<String, String>>) JSON.parseObject(jsondata,
+						new TypeReference<ArrayList<HashMap<String, String>>>() {
+						});
+
+				for (int i = 0; i < typeData.size(); i++) {
+					typeData.get(i).put("flag", "0");
+				}
+
+				chekuTypeAdapter = new ChekuTypeAdapter(typeData, getActivity());
+				TypeGridview.setAdapter(chekuTypeAdapter);
+
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		ApplicationController.getInstance().addToRequestQueue(stringRequest);
+
 	}
 
 	TextWatcher tw = new TextWatcher() {
@@ -118,6 +193,11 @@ public class BasicInfo4SubmitFragment extends Fragment implements OnClickListene
 				positionX = MapPosition.split(",")[0].toString();
 				positionY = MapPosition.split(",")[1].toString();
 				tvMapAddress.setText(address);
+
+				HashMap<String, String> xymap = new HashMap<String, String>();
+				xymap.put("positionX", positionX);
+				xymap.put("positionY", positionY);
+				tvMapAddress.setTag(xymap);
 			}
 
 		}
@@ -138,6 +218,7 @@ public class BasicInfo4SubmitFragment extends Fragment implements OnClickListene
 			intent.putExtra("x", positionX);
 			intent.putExtra("y", positionY);
 			startActivityForResult(intent, PathConfig.LOCATION);
+
 			break;
 		default:
 			break;
@@ -153,6 +234,11 @@ public class BasicInfo4SubmitFragment extends Fragment implements OnClickListene
 		String temp = entity.address;
 		temp = temp.replace(entity.city, "");
 		tvMapAddress.setText(temp);
+
+		HashMap<String, String> xymap = new HashMap<String, String>();
+		xymap.put("positionX", positionX);
+		xymap.put("positionY", positionY);
+		tvMapAddress.setTag(xymap);
 
 		// 情怀般的判断车牌简称
 		try {

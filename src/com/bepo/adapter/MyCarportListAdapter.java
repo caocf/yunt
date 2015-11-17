@@ -3,41 +3,48 @@ package com.bepo.adapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.bepo.R;
-import com.yunt.ui.SubmitPark;
+import com.yunt.ui.DialogAct;
+import com.yunt.ui.ModifyPark;
 
 @SuppressWarnings("rawtypes")
 public class MyCarportListAdapter extends CustomAdapter {
 	private ListView listView;
 	private Context context;
-	private List<HashMap<String, String>> data;
+	private List<HashMap<String, Object>> data;
 	private LayoutInflater inflater;
 
 	@SuppressWarnings("unchecked")
-	public MyCarportListAdapter(ArrayList<HashMap<String, String>> data, Context context) {
+	public MyCarportListAdapter(ArrayList<HashMap<String, Object>> data, Context context) {
 		super(data, context);
 	}
 
 	@SuppressWarnings("unchecked")
-	public MyCarportListAdapter(ArrayList<HashMap<String, String>> data, ListView listView, Context context) {
+	public MyCarportListAdapter(ArrayList<HashMap<String, Object>> data, ListView listView, Context context) {
 		super(data, context);
 		this.listView = listView;
 		this.context = context;
-		this.data = (ArrayList<HashMap<String, String>>) data;
+		this.data = (ArrayList<HashMap<String, Object>>) data;
 		inflater = ((Activity) context).getLayoutInflater();
 	}
 
+	@SuppressWarnings("unchecked")
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		Activity activity = (Activity) context;
 
@@ -51,14 +58,66 @@ public class MyCarportListAdapter extends CustomAdapter {
 			viewCache.tvMonthPirce = (TextView) rowView.findViewById(R.id.tvMonthPirce);
 			viewCache.tvAddress = (TextView) rowView.findViewById(R.id.tvAddress);
 			viewCache.tvType = (TextView) rowView.findViewById(R.id.tvType);
+			viewCache.tvWeek = (TextView) rowView.findViewById(R.id.tvWeek);
+			viewCache.tvTime = (TextView) rowView.findViewById(R.id.tvTime);
+			viewCache.tvBianhao = (TextView) rowView.findViewById(R.id.tvBianhao);
+			viewCache.tvChePai = (TextView) rowView.findViewById(R.id.tvChePai);
+			viewCache.rlBianji = (RelativeLayout) rowView.findViewById(R.id.rlBianji);
+			viewCache.rlDel = (RelativeLayout) rowView.findViewById(R.id.rlDel);
 
 			rowView.setTag(viewCache);
 		} else {
 			viewCache = (ViewHolder) rowView.getTag();
 		}
 
+		if (!data.get(position).get("PARK_NUMBER").equals("")) {
+
+			if (!data.get(position).get("GARAGE").equals("")) {
+				viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
+						+ data.get(position).get("PARK_NUMBER").toString());
+			} else {
+				viewCache.tvBianhao.setText(data.get(position).get("PARK_NUMBER").toString());
+			}
+
+			viewCache.tvChePai.setText(data.get(position).get("PLATE").toString());
+		} else {
+			viewCache.tvChePai.setVisibility(View.GONE);
+			if (!data.get(position).get("GARAGE").equals("")) {
+				viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
+						+ data.get(position).get("PLATE").toString());
+			} else {
+				viewCache.tvBianhao.setText(data.get(position).get("PLATE").toString());
+			}
+		}
 		if (!(null == data.get(position).get("PRICE_HOUR"))) {
 			viewCache.tvHourPrice.setText(data.get(position).get("PRICE_HOUR").toString() + "元/时");
+		}
+		if (!(null == data.get(position).get("PRICE_HOUR"))) {
+			viewCache.tvHourPrice.setText(data.get(position).get("PRICE_HOUR").toString() + "元/时");
+		}
+
+		if (!data.get(position).get("wakeList").toString().equals("[]")) {
+			String s = data.get(position).get("wakeList").toString();
+
+			ArrayList<HashMap<String, String>> temp = (ArrayList<HashMap<String, String>>) JSON.parseObject(s,
+					new TypeReference<ArrayList<HashMap<String, String>>>() {
+					});
+
+			if (temp.get(0).get("ALL_TIME").equals("1")) {
+				viewCache.tvTime.setText("24小时可租");
+			} else {
+				viewCache.tvTime.setText(temp.get(0).get("START_TIME") + " - " + temp.get(0).get("END_TIME"));
+			}
+
+			// 星期
+			String sWeek = "";
+			for (Map<String, String> map : temp) {
+				sWeek = sWeek + "、" + map.get("WEEKNAME");
+			}
+
+			sWeek = sWeek.substring(1);
+			sWeek = sWeek.replace("星期", "周");
+			viewCache.tvWeek.setText(sWeek);
 		}
 
 		if (!(null == data.get(position).get("PRICE_MONTH"))) {
@@ -71,15 +130,62 @@ public class MyCarportListAdapter extends CustomAdapter {
 		if (!(null == data.get(position).get("CODE_PARK_TYPE_NAME"))) {
 			viewCache.tvType.setText(data.get(position).get("CODE_PARK_TYPE_NAME").toString());
 		}
+		if (!(null == data.get(position).get("CODE_PARK_TYPE"))) {
 
-		rowView.setOnClickListener(new OnClickListener() {
+			String s = data.get(position).get("CODE_PARK_TYPE").toString();
+
+			switch (Integer.parseInt(s.trim())) {
+			case 1828:
+				viewCache.tvType.setBackground(context.getResources().getDrawable(R.drawable.chewei_textbg_green));
+				break;
+			case 1829:
+				viewCache.tvType.setBackground(context.getResources().getDrawable(R.drawable.chewei_textbg_red));
+				break;
+			case 1830:
+				viewCache.tvType.setBackground(context.getResources().getDrawable(R.drawable.chewei_textbg_grey));
+				viewCache.tvType.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); // 下划线
+				viewCache.tvType.getPaint().setAntiAlias(true);// 抗锯齿
+				break;
+			case 1831:
+				viewCache.tvType.setBackground(context.getResources().getDrawable(R.drawable.chewei_textbg_grey));
+				break;
+			case 1834:
+				viewCache.tvType.setBackground(context.getResources().getDrawable(R.drawable.chewei_textbg_red));
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
+		viewCache.rlBianji.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(context, SubmitPark.class);
+				Intent intent = new Intent(context, ModifyPark.class);
 				intent.putExtra("code", data.get(position).get("CODE").toString());
 				context.startActivity(intent);
 
+			}
+		});
+		viewCache.rlDel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent2 = new Intent(context, DialogAct.class);
+				intent2.putExtra("code", data.get(position).get("CODE").toString());
+				context.startActivity(intent2);
+
+			}
+		});
+
+		rowView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(context, ModifyPark.class);
+				intent.putExtra("code", data.get(position).get("CODE").toString());
+				context.startActivity(intent);
 			}
 		});
 		return rowView;
@@ -87,11 +193,12 @@ public class MyCarportListAdapter extends CustomAdapter {
 
 	private class ViewHolder {
 
-		public TextView tvHourPrice, tvMonthPirce, tvAddress, tvType;
+		public TextView tvHourPrice, tvMonthPirce, tvAddress, tvType, tvWeek, tvTime, tvBianhao, tvChePai;
+		public RelativeLayout rlBianji, rlDel;
 
 	}
 
-	public void setData(List<HashMap<String, String>> resultList) {
+	public void setData(List<HashMap<String, Object>> resultList) {
 		this.data = resultList;
 	}
 

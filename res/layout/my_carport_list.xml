@@ -27,7 +27,7 @@
                 android:textSize="15dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -36,11 +36,18 @@
             <Spinner
                 android:id="@+id/Spinner01"
                 style="@style/spinner_style"
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:dropDownVerticalOffset="17dp"
                 android:entries="@array/cities" />
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/Spinner01"
+                android:background="@drawable/xiala" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rlRight"
@@ -63,8 +70,12 @@
     <ListView
         android:id="@+id/carportListView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:divider="@null" >
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:divider="@null"
+        android:dividerHeight="8dp" >
     </ListView>
 
 </LinearLayout>
