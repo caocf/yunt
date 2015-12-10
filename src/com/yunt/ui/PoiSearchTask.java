@@ -14,7 +14,6 @@ import java.util.List;
 import android.content.Context;
 
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.poisearch.PoiItemDetail;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
@@ -53,11 +52,7 @@ public class PoiSearchTask implements OnPoiSearchListener {
 		poiSearch.searchPOIAsyn();
 	}
 
-	@Override
-	public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
-
-	}
-
+	
 	@Override
 	public void onPoiSearched(PoiResult poiResult, int resultCode) {
 		if (resultCode == 0 && poiResult != null) {

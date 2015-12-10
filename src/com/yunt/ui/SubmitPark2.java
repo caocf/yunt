@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bepo.R;
+import com.bepo.bean.WeekBean;
 import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
@@ -89,7 +90,7 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 	ArrayList<String> list = new ArrayList<String>();
 	private Bitmap myBitmap;
 	private byte[] myByte;
-	private int picFlag = 0;
+	private int picFlag = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -360,40 +361,37 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 		allTime = RentalTime4SubmitFragment.allTime;
 
 		// 开始时间
-		TextView tvstartTime = (TextView) this.findViewById(R.id.tvStartTime);
-		startTime = tvstartTime.getText().toString().trim();
+		startTime = RentalTime4SubmitFragment.startTime;
 		// 结束时间
-		TextView tvEndTime = (TextView) this.findViewById(R.id.tvEndTime);
-		endTime = tvEndTime.getText().toString().trim();
-
+		endTime = RentalTime4SubmitFragment.endTime;
 		// 非全天可租时的非空判断
 		if (allTime.equals("0")) {
-			if (startTime.equals("点击选择")) {
-				ToastUtils.showSuperToastAlert(getApplicationContext(), "开始时间不能为空");
-				return;
-			}
-			if (endTime.equals("点击选择")) {
-				ToastUtils.showSuperToastAlert(getApplicationContext(), "结束时间不能为空");
-				return;
-			}
+
 			// 判断时间间隔
-			int s = Integer.parseInt(startTime.replace(":", "").trim());
-			int e = Integer.parseInt(endTime.replace(":", "").trim());
-			if (s - e >= 0) {
+			String ss = MyTextUtils.noSpace(startTime);
+			String ee = MyTextUtils.noSpace(endTime);
+
+			int s = Integer.parseInt(ss.replace(":", ""));
+			int e = Integer.parseInt(ee.replace(":", ""));
+			if (s - e == 0) {
 				ToastUtils.showSuperToastAlert(getApplicationContext(), "开始时间不能大于结束时间");
 				return;
 			}
 		} else {
-			startTime = "0";
-			endTime = "0";
+			startTime = "00:00";
+			endTime = "00:00";
 		}
 
-		// 可租星期
-		for (String temp : RentalTime4SubmitFragment.week) {
-			week = week + "," + temp;
-		}
-		if (!week.isEmpty()) {
-			week = week.substring(1);
+		// 判断可租日期
+		if (WeekBean.week.size() > 0) {
+			week = "";
+			for (String temp : WeekBean.week) {
+				week = week + "," + temp;
+			}
+			if (week.split(",")[0].equals("")) {
+				week = week.substring(1);
+			}
+
 		} else {
 			ToastUtils.showSuperToastAlert(getApplicationContext(), "可租日期不能为空");
 			return;
@@ -439,7 +437,7 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 				Map<String, String> message = JSON.parseObject(jsondata, new TypeReference<Map<String, String>>() {
 				});
 
-				if (picFlag <= Bimp.tempSelectBitmap.size()) {
+				if (picFlag < Bimp.tempSelectBitmap.size()) {
 					picFlag++;
 				} else {
 					submitData();
@@ -453,7 +451,7 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 				ToastUtils.showSuperToastAlert(getApplicationContext(), "上传图片失败");
 			}
 		}, params);
-		request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+		request.setRetryPolicy(new DefaultRetryPolicy(200 * 1000, 1, 1.0f));
 		ApplicationController.getInstance().addToRequestQueue(request);
 	}
 
@@ -482,13 +480,8 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 
 		String url;
 
-		// if (tvlogin.getText().equals("确认修改")) {
-		// url = PathConfig.ADDRESS + "/base/breleasepark/modify";
-		// url = MyTextUtils.urlPlusFoot(url);
-		// } else {
 		url = PathConfig.ADDRESS + "/base/breleasepark/add";
 		url = MyTextUtils.urlPlusFoot(url);
-		// }
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("Address", Address);
@@ -526,6 +519,7 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 					Intent intent03 = new Intent(SubmitPark2.this, SubmitParkSucess.class);
 					startActivity(intent03);
 				} else {
+					dismissDialog();
 					ToastUtils.showSuperToastAlert(SubmitPark2.this, message.get("info"));
 					finish();
 				}
@@ -542,50 +536,52 @@ public class SubmitPark2 extends BaseAct implements OnClickListener {
 		ApplicationController.getInstance().addToRequestQueue(request);
 	}
 
-	protected void submitDate(String parkCode) {
-		String url;
-		url = PathConfig.ADDRESS + "/base/bwake/add";
-		url = MyTextUtils.urlPlusFoot(url);
-
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("parkCode", parkCode);
-		params.put("week", week);
-		params.put("startTime", startTime);
-		params.put("endTime", endTime);
-		params.put("allTime", allTime);
-
-		Request<JSONObject> request = new VolleyCommonPost(url, new Response.Listener<JSONObject>() {
-			@Override
-			public void onResponse(JSONObject response) {
-				String jsondata = response.toString();
-				Map<String, String> message = JSON.parseObject(jsondata, new TypeReference<Map<String, String>>() {
-				});
-
-				dismissDialog();
-				if (message.get("status").equals("true")) {
-					finish();
-					Intent intent03 = new Intent(SubmitPark2.this, SubmitParkSucess.class);
-					startActivity(intent03);
-
-				} else {
-					ToastUtils.showSuperToastAlert(SubmitPark2.this, message.get("info"));
-					finish();
-				}
-
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				dismissDialog();
-				ToastUtils.showSuperToastAlert(SubmitPark2.this, "连接服务器失败,请稍后重试!");
-			}
-		}, params);
-		request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
-		ApplicationController.getInstance().addToRequestQueue(request);
-
-	}
-
 	// ====================================================================================
+	// protected void submitDate(String parkCode) {
+	// String url;
+	// url = PathConfig.ADDRESS + "/base/bwake/add";
+	// url = MyTextUtils.urlPlusFoot(url);
+	//
+	// Map<String, String> params = new HashMap<String, String>();
+	// params.put("parkCode", parkCode);
+	// params.put("week", week);
+	// params.put("startTime", startTime);
+	// params.put("endTime", endTime);
+	// params.put("allTime", allTime);
+	//
+	// Request<JSONObject> request = new VolleyCommonPost(url, new
+	// Response.Listener<JSONObject>() {
+	// @Override
+	// public void onResponse(JSONObject response) {
+	// String jsondata = response.toString();
+	// Map<String, String> message = JSON.parseObject(jsondata, new
+	// TypeReference<Map<String, String>>() {
+	// });
+	//
+	// dismissDialog();
+	// if (message.get("status").equals("true")) {
+	// finish();
+	// Intent intent03 = new Intent(SubmitPark2.this, SubmitParkSucess.class);
+	// startActivity(intent03);
+	//
+	// } else {
+	// ToastUtils.showSuperToastAlert(SubmitPark2.this, message.get("info"));
+	// finish();
+	// }
+	//
+	// }
+	// }, new Response.ErrorListener() {
+	// @Override
+	// public void onErrorResponse(VolleyError error) {
+	// dismissDialog();
+	// ToastUtils.showSuperToastAlert(SubmitPark2.this, "连接服务器失败,请稍后重试!");
+	// }
+	// }, params);
+	// request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+	// ApplicationController.getInstance().addToRequestQueue(request);
+	//
+	// }
+
 	void resetStepNum() {
 		ivStep01.setBackground(this.getResources().getDrawable(R.drawable.submit_1_n));
 		ivStep02.setBackground(this.getResources().getDrawable(R.drawable.submit_2_n));

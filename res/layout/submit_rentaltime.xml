@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="元/小时"
+                        android:text="元/时"
                         android:textSize="15sp" />
 
                     <EditText
@@ -126,7 +126,39 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="10dp"
-            android:text="设置出租时间和日期"
+            android:text="设置出租日期"
+            android:textColor="@color/gray_user_bg"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_listitem_shot"
+            android:orientation="vertical"
+            android:paddingLeft="15dp" >
+
+            <GridView
+                android:id="@+id/weekgridview"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:columnWidth="90dp"
+                android:gravity="left"
+                android:horizontalSpacing="4dp"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="6dp" >
+            </GridView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:text="设置出租时间"
             android:textColor="@color/gray_user_bg"
             android:textSize="13sp" />
 
@@ -182,136 +214,104 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/line" />
 
-                <RelativeLayout
-                    android:id="@+id/rlStarTime"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/common_bg"
-                    android:paddingLeft="15dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="开始时间:"
-                        android:textSize="15sp" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/tvDitudingwei"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:id="@+id/iv01"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:background="@drawable/detail_arrow" />
-
-                        <TextView
-                            android:id="@+id/tvStartTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/iv01"
-                            android:gravity="right"
-                            android:text="点击选择"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/line" />
-
-                <RelativeLayout
-                    android:id="@+id/rlEndTime"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/common_bg"
-                    android:paddingLeft="15dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="结束时间:"
-                        android:textSize="15sp" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/tvDitudingwei"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:id="@+id/iv02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:background="@drawable/detail_arrow" />
-
-                        <TextView
-                            android:id="@+id/tvEndTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/iv02"
-                            android:gravity="right"
-                            android:text="点击选择"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/line" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:paddingLeft="15dp" >
-
                 <TextView
-                    android:id="@+id/tv03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="可租日期:"
-                    android:textSize="15sp" />
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="推荐时间段"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
 
-                <GridView
-                    android:id="@+id/weekgridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="8dp"
-                    android:columnWidth="90dp"
-                    android:gravity="left"
-                    android:horizontalSpacing="4dp"
-                    android:numColumns="4"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="6dp" >
-                </GridView>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tvDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15sp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/time_tag"
+                        android:text="白天时段"
+                        android:textColor="#8C8C8C"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tvNight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15sp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/time_tag"
+                        android:text="晚上时段"
+                        android:textColor="#8C8C8C"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:id="@+id/tvZhi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="2dp"
+                        android:text="至"
+                        android:textColor="@color/tag_blue"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="35dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <NumberPicker
+                            android:id="@+id/numberPicker1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="35dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/tvCiri"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="(次日)"
+                            android:textColor="@color/gray"
+                            android:textSize="16sp"
+                            android:visibility="gone" />
+
+                        <NumberPicker
+                            android:id="@+id/numberPicker2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

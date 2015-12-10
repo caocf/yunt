@@ -20,11 +20,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/titlebar_back_btn_normal_bg"
+                android:background="@drawable/titlebar_btn"
                 android:gravity="center"
                 android:text="返回"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -75,7 +75,49 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:divider="@null"
-        android:dividerHeight="8dp" >
+        android:dividerHeight="8dp"
+        android:visibility="gone" >
     </ListView>
+
+    <RelativeLayout
+        android:id="@+id/rlNoData"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+
+            <ImageView
+                android:id="@+id/iv000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/order_list_no_data" />
+
+            <TextView
+                android:id="@+id/tv000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv000"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="您还没有发布车位"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv000"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="点击右上角新建试试"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

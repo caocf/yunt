@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bepo.R;
+import com.bepo.bean.WeekBean;
 import com.yunt.view.RentalTime4SubmitFragment;
 
 @SuppressWarnings("rawtypes")
@@ -40,9 +41,20 @@ public class WeekAdapter extends CustomAdapter {
 		isClicked.add(5, false);
 		isClicked.add(6, false);
 
+		WeekBean.week.clear();
 		for (int i = 1; i < 6; i++) {
-			RentalTime4SubmitFragment.week.add(i + "");
+			WeekBean.week.add(i + "");
 		}
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public WeekAdapter(ArrayList<HashMap<String, String>> data, List<Boolean> isClicked, Context context) {
+		super(data, context);
+		this.context = context;
+		this.data = (ArrayList<HashMap<String, String>>) data;
+		inflater = ((Activity) context).getLayoutInflater();
+		this.isClicked = isClicked;
 
 	}
 
@@ -83,14 +95,14 @@ public class WeekAdapter extends CustomAdapter {
 				isClicked.set(position, !temp);
 				notifyDataSetChanged();
 
-				RentalTime4SubmitFragment.week.clear();
+				WeekBean.week.clear();
 				for (int i = 0; i < isClicked.size(); i++) {
 					if (isClicked.get(i)) {
 						if (i == 6) {
-							RentalTime4SubmitFragment.week.add("0");
+							WeekBean.week.add("0");
 						} else {
 							int sss = i + 1;
-							RentalTime4SubmitFragment.week.add(sss + "");
+							WeekBean.week.add(sss + "");
 						}
 					}
 				}

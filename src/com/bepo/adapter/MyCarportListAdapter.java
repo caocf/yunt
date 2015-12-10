@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bepo.R;
+import com.bepo.utils.MyTextUtils;
+import com.github.johnpersano.supertoasts.util.ToastUtils;
 import com.yunt.ui.DialogAct;
 import com.yunt.ui.ModifyPark;
 
@@ -70,25 +72,39 @@ public class MyCarportListAdapter extends CustomAdapter {
 			viewCache = (ViewHolder) rowView.getTag();
 		}
 
-		if (!data.get(position).get("PARK_NUMBER").equals("")) {
+		if (!(null == data.get(position).get("PARK_NUMBER"))) {
 
-			if (!data.get(position).get("GARAGE").equals("")) {
-				viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
-						+ data.get(position).get("PARK_NUMBER").toString());
+			if (!MyTextUtils.isEmpty(data.get(position).get("PARK_NUMBER").toString())) {
+
+				if (!(null == data.get(position).get("GARAGE"))) {
+					if (!data.get(position).get("GARAGE").equals("")) {
+						viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
+								+ data.get(position).get("PARK_NUMBER").toString());
+					} else {
+						viewCache.tvBianhao.setText(data.get(position).get("PARK_NUMBER").toString());
+					}
+
+				}
+				if (!(null == data.get(position).get("PLATE"))) {
+					if (data.get(position).get("PLATE").toString().length() == 1) {
+						viewCache.tvChePai.setVisibility(View.GONE);
+					} else {
+						viewCache.tvChePai.setText(data.get(position).get("PLATE").toString());
+					}
+
+				}
 			} else {
-				viewCache.tvBianhao.setText(data.get(position).get("PARK_NUMBER").toString());
+				viewCache.tvChePai.setVisibility(View.GONE);
+				if (!data.get(position).get("GARAGE").equals("")) {
+					viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
+							+ data.get(position).get("PLATE").toString());
+				} else {
+					viewCache.tvBianhao.setText(data.get(position).get("PLATE").toString());
+				}
 			}
 
-			viewCache.tvChePai.setText(data.get(position).get("PLATE").toString());
-		} else {
-			viewCache.tvChePai.setVisibility(View.GONE);
-			if (!data.get(position).get("GARAGE").equals("")) {
-				viewCache.tvBianhao.setText(data.get(position).get("GARAGE").toString()
-						+ data.get(position).get("PLATE").toString());
-			} else {
-				viewCache.tvBianhao.setText(data.get(position).get("PLATE").toString());
-			}
 		}
+
 		if (!(null == data.get(position).get("PRICE_HOUR"))) {
 			viewCache.tvHourPrice.setText(data.get(position).get("PRICE_HOUR").toString() + "元/时");
 		}
@@ -106,7 +122,19 @@ public class MyCarportListAdapter extends CustomAdapter {
 			if (temp.get(0).get("ALL_TIME").equals("1")) {
 				viewCache.tvTime.setText("24小时可租");
 			} else {
-				viewCache.tvTime.setText(temp.get(0).get("START_TIME") + " - " + temp.get(0).get("END_TIME"));
+
+				// 判断时间间隔
+				String ss = MyTextUtils.noSpace(temp.get(0).get("START_TIME"));
+				String ee = MyTextUtils.noSpace(temp.get(0).get("END_TIME"));
+
+				int sss = Integer.parseInt(ss.replace(":", ""));
+				int eee = Integer.parseInt(ee.replace(":", ""));
+				if (sss - eee >= 0) {
+					viewCache.tvTime.setText(ss + " — " + ee + "(次日)");
+				} else {
+					viewCache.tvTime.setText(ss + " — " + ee);
+				}
+
 			}
 
 			// 星期

@@ -26,7 +26,7 @@
                     android:id="@+id/tvCancle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/titlebar_btn"
+                    android:background="@drawable/titblebar_back_btn"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="修改车位"
+                android:text="车位详情"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -416,7 +416,7 @@
                                     android:id="@+id/tvXingqi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginRight="20dp"
+                                    android:layout_marginRight="80dp"
                                     android:layout_marginTop="5dp"
                                     android:text="周三、周五、周日"
                                     android:textColor="@color/gray_user_bg"
@@ -497,7 +497,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_big" >
+                    android:background="@drawable/btn_big"
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/tvSubmit"

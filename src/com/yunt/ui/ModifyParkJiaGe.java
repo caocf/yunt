@@ -51,7 +51,7 @@ public class ModifyParkJiaGe extends BaseAct {
 	private void initView() {
 
 		tvCancle = (TextView) this.findViewById(R.id.tvCancle);
-		tvCancle.setText("修改车位");
+		tvCancle.setText("车位详情");
 		tvCancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -93,13 +93,13 @@ public class ModifyParkJiaGe extends BaseAct {
 
 		String url;
 
-		url = PathConfig.ADDRESS + "/base/breleasepark/modify";
+		url = PathConfig.ADDRESS + "/base/breleasepark/setPrice";
 		url = MyTextUtils.urlPlusFoot(url);
 
-		detailMap.put("PriceHour", PriceHour);
-		detailMap.put("PriceMonth", PriceMonth);
-
-		Map<String, String> temp = detailMap;
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("Code", detailMap.get("CODE"));
+		params.put("PriceHour", PriceHour);
+		params.put("PriceMonth", PriceMonth);
 
 		Request<JSONObject> request = new VolleyCommonPost(url, new Response.Listener<JSONObject>() {
 			@Override
@@ -111,7 +111,7 @@ public class ModifyParkJiaGe extends BaseAct {
 				if (message.get("status").equals("true")) {
 					dismissDialog();
 					finish();
-					ToastUtils.showSuperToastAlert(ModifyParkJiaGe.this, message.get("info"));
+					ToastUtils.showSuperToastAlertGreen(ModifyParkJiaGe.this, message.get("info"));
 				} else {
 					ToastUtils.showSuperToastAlert(ModifyParkJiaGe.this, message.get("info"));
 					finish();
@@ -124,7 +124,7 @@ public class ModifyParkJiaGe extends BaseAct {
 				dismissDialog();
 				ToastUtils.showSuperToastAlert(ModifyParkJiaGe.this, "连接服务器失败,请稍后重试!");
 			}
-		}, temp);
+		}, params);
 		request.setRetryPolicy(new DefaultRetryPolicy(200 * 1000, 1, 1.0f));
 		ApplicationController.getInstance().addToRequestQueue(request);
 

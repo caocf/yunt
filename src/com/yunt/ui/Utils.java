@@ -3,7 +3,7 @@ package com.yunt.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.util.Log;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -18,10 +18,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bepo.R;
 import com.bepo.core.ApplicationController;
+import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 
-public class Utils {
-
+public class Utils extends BaseAct {
 	private static ArrayList<Marker> markers = new ArrayList<Marker>();
 
 	public static void searchNearby(final AMap amap, LatLng center) {
@@ -39,13 +39,13 @@ public class Utils {
 						jsondata, new TypeReference<ArrayList<HashMap<String, String>>>() {
 						});
 
-				HomeAct.data = data;
+				HomeAct2.data = data;
 				addMarkers(amap, data);
 
 				if (data.size() > 0) {
-					HomeAct.setCarPop("附近有" + data.size() + "个可用车位");
+					HomeAct2.setCarPop("附近有" + data.size() + "个可用车位");
 				} else {
-					HomeAct.setCarPop("附近没有可用车位,请移动地图");
+					HomeAct2.setCarPop("附近没有可用车位,请移动地图");
 				}
 
 			}
@@ -69,6 +69,9 @@ public class Utils {
 
 		for (int j = 0; j < data.size(); j++) {
 
+			// BitmapDescriptor bitmapDescriptor =
+			// BitmapDescriptorFactory.fromResource(R.drawable.ub_more_pick);
+
 			BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ub_more_pick);
 			double Position_x = Double.parseDouble(data.get(j).get("POSITION_X").toString());
 			double Position_y = Double.parseDouble(data.get(j).get("POSITION_Y").toString());
@@ -88,7 +91,7 @@ public class Utils {
 			Marker marker = aMap.addMarker(markerOptions);
 			markers.add(marker);
 
-			HomeAct.settop();
+			HomeAct2.settop();
 
 		}
 

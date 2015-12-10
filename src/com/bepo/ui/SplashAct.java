@@ -9,6 +9,7 @@ import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.update.UpdateManager;
 import com.yunt.ui.HomeAct;
+import com.yunt.ui.HomeAct2;
 
 public class SplashAct extends BaseAct {
 
@@ -32,7 +33,7 @@ public class SplashAct extends BaseAct {
 				}
 				Looper.prepare();
 				// manager.checkUpdate();
-				Intent mIntent = new Intent(SplashAct.this, HomeAct.class);
+				Intent mIntent = new Intent(SplashAct.this, HomeAct2.class);
 				// Intent mIntent = new Intent(SplashAct.this,
 				// LoginActivity.class);
 				SplashAct.this.startActivity(mIntent);

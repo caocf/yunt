@@ -235,7 +235,7 @@ public class AddressAutoSearchActivity extends BaseAct implements TextWatcher, O
 				GeocodeAddress address = result.getGeocodeAddressList().get(0);
 				mLatLng = new LatLng(address.getLatLonPoint().getLatitude(), address.getLatLonPoint()
 						.getLongitude());
-				HomeAct.moveCar(mLatLng);
+				HomeAct2.moveCar(mLatLng);
 				finish();
 			}
 		}

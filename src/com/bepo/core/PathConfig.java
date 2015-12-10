@@ -18,7 +18,8 @@ public class PathConfig {
 	// 北戴河服务器
 
 	public static final String ADDRESS = "http://www.sharecar.cn";
-//	 public static final String ADDRESS = "http://192.168.1.200:8080/zcw";
+	// public static final String ADDRESS = "http://192.168.1.105:8080/zcw";
+	// public static final String ADDRESS = "http://192.168.1.107:8080/zcw";
 
 	public static final String UDP_HOST = "121.22.104.218";// 上位机IP
 	public static final int UDP_PORT = 8603;// 上位机端口

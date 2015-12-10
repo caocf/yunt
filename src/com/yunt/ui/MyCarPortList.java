@@ -33,7 +33,7 @@ public class MyCarPortList extends BaseAct {
 	private ListView carportListView;
 	private Spinner mSpinner;
 	private LinearLayout linLeft;
-	private RelativeLayout rlRight;
+	private RelativeLayout rlRight, rlNoData;
 
 	MyCarportListAdapter mMyCarportListAdapter;
 	ArrayList<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
@@ -63,6 +63,8 @@ public class MyCarPortList extends BaseAct {
 	}
 
 	private void initView() {
+		rlNoData = (RelativeLayout) this.findViewById(R.id.rlNoData);
+		rlNoData.setVisibility(View.GONE);
 
 		rlRight = (RelativeLayout) this.findViewById(R.id.rlRight);
 		rlRight.setOnClickListener(new OnClickListener() {
@@ -137,6 +139,8 @@ public class MyCarPortList extends BaseAct {
 	}
 
 	private void getData(String typeCode) {
+		carportListView.setVisibility(View.GONE);
+		rlNoData.setVisibility(View.GONE);
 		showDialog();
 		String url = PathConfig.ADDRESS + "/base/breleasepark/queryList?codePrakType=" + typeCode;
 		url = MyTextUtils.urlPlusAndFoot(url);
@@ -152,9 +156,15 @@ public class MyCarPortList extends BaseAct {
 						});
 
 				if (data.size() > 0) {
+
 					mMyCarportListAdapter.setData(data);
 					carportListView.setAdapter(mMyCarportListAdapter);
+					carportListView.setVisibility(View.VISIBLE);
+				} else {
+					rlNoData.setVisibility(View.VISIBLE);
+
 				}
+
 			}
 		}, new Response.ErrorListener() {
 			@Override

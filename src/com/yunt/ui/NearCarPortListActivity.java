@@ -58,8 +58,8 @@ public class NearCarPortListActivity extends BaseAct implements TextWatcher, OnC
 		setContentView(R.layout.carport_list);
 		getTopBar("附近车位列表");
 
-		if (HomeAct.data.size() > 0) {
-			data = HomeAct.data;
+		if (HomeAct2.data.size() > 0) {
+			data = HomeAct2.data;
 		}
 		city = HomeAct.city;
 		initView();

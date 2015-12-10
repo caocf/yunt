@@ -44,7 +44,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 短信相关所需权限 -->
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <!-- jpush 所需权限 -->
     <uses-permission android:name="com.bepo.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -136,6 +139,7 @@
 
         <!-- 云停宝宝 -->
         <activity android:name="com.yunt.ui.HomeAct" />
+        <activity android:name="com.yunt.ui.HomeAct2" />
         <activity android:name="com.yunt.ui.ParkDetailAct" />
         <activity android:name="com.yunt.ui.MainActivity" />
         <activity android:name="com.yunt.ui.LoginActivity" />
@@ -150,6 +154,7 @@
         <activity android:name="com.yunt.ui.MessageInfo" />
         <activity android:name="com.yunt.ui.MyCarPortList" />
         <activity android:name="com.yunt.ui.SubmitPark" />
+        <activity android:name="com.yunt.ui.RounteActivity" />
         <activity
             android:name="com.yunt.ui.DialogAct"
             android:theme="@style/MyDialogStyle" >
@@ -302,7 +307,11 @@
 
         <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
-
+        <receiver android:name="com.bepo.utils.SMSBroadcastReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name="com.example.jpushdemo.MyReceiver"

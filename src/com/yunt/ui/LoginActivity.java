@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -28,6 +31,7 @@ import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.utils.MyTextUtils;
+import com.bepo.utils.SMSBroadcastReceiver;
 import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 public class LoginActivity extends BaseAct implements OnClickListener {
@@ -47,6 +51,11 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 	private SharedPreferences.Editor editor;
 
 	private int recLen = 60;
+	private int flag = 0;
+
+	// 短信接收相关
+	private SMSBroadcastReceiver mSMSBroadcastReceiver;
+	private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,8 +72,61 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 		tvGetyanzhen.setOnClickListener(this);
 
 		etPhone = (EditText) this.findViewById(R.id.etPhone);
-		etCode = (EditText) this.findViewById(R.id.etCode);
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		etCode = (EditText) this.findViewById(R.id.etCode);
+		etCode.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				if (arg0.length() == 4 && flag == 1) {
+					tvNext.setClickable(false);
+					phone = etPhone.getText().toString().trim();
+					yanzhen = etCode.getText().toString().trim();
+					goHome(phone, yanzhen);
+				}
+
+			}
+		});
+		// 生成广播处理
+		mSMSBroadcastReceiver = new SMSBroadcastReceiver();
+
+		// 实例化过滤器并设置要过滤的广播
+		IntentFilter intentFilter = new IntentFilter(ACTION);
+		intentFilter.setPriority(Integer.MAX_VALUE);
+		// 注册广播
+		this.registerReceiver(mSMSBroadcastReceiver, intentFilter);
+
+		mSMSBroadcastReceiver.setOnReceivedMessageListener(new SMSBroadcastReceiver.MessageListener() {
+			@Override
+			public void onReceived(String message) {
+				flag = 1;
+				etCode.setText(message.trim().split(":")[1]);
+				// ToastUtils.showSuperToastAlert(getApplicationContext(),
+				// message);
+			}
+		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		// 注销短信监听广播
+		this.unregisterReceiver(mSMSBroadcastReceiver);
 	}
 
 	public void onClick(View v) {
@@ -100,7 +162,6 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 			getAuthCode(phone);
 			break;
 		case R.id.linBack:
-
 			LoginActivity.this.finish();
 		}
 
@@ -144,11 +205,11 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 			public void onErrorResponse(VolleyError error) {
 				dismissDialog();
 				tvNext.setClickable(true);
-				ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "404!!");
+				ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "连接服务器失败,请稍后重试!");
 			}
 		});
 
-		stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+		stringRequest.setRetryPolicy(new DefaultRetryPolicy(200* 1000, 1, 1.0f));
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 
 	}
@@ -168,17 +229,17 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 					ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "验证码请求成功,请稍等!");
 
 				} else {
-					ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "获取验证码失败,请稍后重试!");
+					ToastUtils.showSuperToastAlert(LoginActivity.this, "获取验证码失败,请稍后重试!");
 				}
 			}
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 
-				ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "404!!");
+				ToastUtils.showSuperToastAlert(LoginActivity.this, "连接服务器失败,请稍后重试!!");
 			}
 		});
-		stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+		stringRequest.setRetryPolicy(new DefaultRetryPolicy(200 * 1000, 1, 1.0f));
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 
 	}
@@ -213,7 +274,7 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 		public void gotResult(int code, String alias, Set<String> tags) {
 			switch (code) {
 			case 0:
-//				MyTextUtils.showToast("登录成功", getApplicationContext());
+				// MyTextUtils.showToast("登录成功", getApplicationContext());
 				break;
 
 			}

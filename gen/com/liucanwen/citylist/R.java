@@ -38,15 +38,15 @@ public final class R {
 		public static final int activity_vertical_margin = 0x7f070001;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02011b;
-		public static final int icon_search = 0x7f020141;
-		public static final int line = 0x7f02015a;
-		public static final int listitem_selector = 0x7f02015b;
-		public static final int search_bg = 0x7f020202;
-		public static final int search_puin = 0x7f020203;
+		public static final int ic_launcher = 0x7f02011c;
+		public static final int icon_search = 0x7f020144;
+		public static final int line = 0x7f020161;
+		public static final int listitem_selector = 0x7f020162;
+		public static final int search_bg = 0x7f02022a;
+		public static final int search_puin = 0x7f02022b;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f0c0262;
+		public static final int action_settings = 0x7f0c0271;
 		public static final int button_search = 0x7f0c00b0;
 		public static final int cityName = 0x7f0c00ad;
 		public static final int infoRowContainer = 0x7f0c00ac;
@@ -56,8 +56,8 @@ public final class R {
 		public static final int sectionTextView = 0x7f0c00ab;
 	}
 	public static final class layout {
-		public static final int city_item = 0x7f03002a;
-		public static final int citylist_main = 0x7f03002b;
+		public static final int city_item = 0x7f03002b;
+		public static final int citylist_main = 0x7f03002c;
 	}
 	public static final class menu {
 		public static final int main = 0x7f0e0000;

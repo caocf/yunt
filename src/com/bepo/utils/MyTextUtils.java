@@ -116,6 +116,10 @@ public class MyTextUtils {
 		return false;
 	}
 
+	public static String noSpace(String content) {
+		return content.replaceAll("\\s*", "");
+	}
+
 	public static boolean isEmpty(String content) {
 		if (content == null || "".equals(content.trim())) {
 			return true;

@@ -1,5 +1,5 @@
 /**  
-  * Project Name:Android_Car_Example  
+ * Project Name:Android_Car_Example  
  * File Name:LocationTask.java  
  * Package Name:com.amap.api.car.example  
  * Date:2015年4月3日上午9:27:45  
@@ -23,10 +23,6 @@ import com.amap.api.location.LocationProviderProxy;
  * Function: 简单封装了定位请求，可以进行单次定位和多次定位，注意的是在app结束或定位结束时注意销毁定位 <br/>
  * Date: 2015年4月3日 上午9:27:45 <br/>
  * 
- * @author yiyi.qi
- * @version
- * @since JDK 1.6
- * @see
  */
 public class LocationTask implements AMapLocationListener, OnLocationGetListener {
 
@@ -131,9 +127,9 @@ public class LocationTask implements AMapLocationListener, OnLocationGetListener
 			entity.city = amapLocation.getCity();
 			// 城市代码
 			entity.cityCode = amapLocation.getCityCode();
-		
-			//省份名称
-			entity.province=	amapLocation.getProvince();
+
+			// 省份名称
+			entity.province = amapLocation.getProvince();
 
 			// 具体位置
 			if (!TextUtils.isEmpty(amapLocation.getAddress())) {
