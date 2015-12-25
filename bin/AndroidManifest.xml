@@ -141,6 +141,10 @@
         <activity android:name="com.yunt.ui.HomeAct" />
         <activity android:name="com.yunt.ui.HomeAct2" />
         <activity android:name="com.yunt.ui.ParkDetailAct" />
+        <activity android:name="com.yunt.ui.ParkDetailAct2" />
+        <activity android:name="com.yunt.ui.ParkDetailAct2b" />
+        <activity android:name="com.yunt.ui.ChoosePlate" />
+        <activity android:name="com.yunt.ui.AddPlate" />
         <activity android:name="com.yunt.ui.MainActivity" />
         <activity android:name="com.yunt.ui.LoginActivity" />
         <activity android:name="com.yunt.ui.SubmitCarOwnerInfo" />
@@ -154,9 +158,15 @@
         <activity android:name="com.yunt.ui.MessageInfo" />
         <activity android:name="com.yunt.ui.MyCarPortList" />
         <activity android:name="com.yunt.ui.SubmitPark" />
+        <activity android:name="com.yunt.ui.RentTime" />
         <activity android:name="com.yunt.ui.RounteActivity" />
+        <activity android:name="com.yunt.ui.RounteActivity2" />
         <activity
             android:name="com.yunt.ui.DialogAct"
+            android:theme="@style/MyDialogStyle" >
+        </activity>
+        <activity
+            android:name="com.yunt.ui.DialogAct1"
             android:theme="@style/MyDialogStyle" >
         </activity>
         <activity
@@ -191,6 +201,7 @@
         </activity>
         <activity android:name="com.yunt.ui.CityListAct" />
         <activity android:name="com.yunt.ui.VoucherList" />
+        <activity android:name="com.yunt.ui.VoucherList2Use" />
         <activity android:name="com.yunt.ui.MyWallet" />
         <activity android:name="com.yunt.ui.WithdrawalsAct" />
         <activity android:name="com.yunt.ui.PayInfo4Withdrawals" />

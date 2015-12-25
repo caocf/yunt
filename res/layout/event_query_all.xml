@@ -5,10 +5,15 @@
     android:layout_height="fill_parent"
     android:background="@drawable/home_main_bg" >
 
-    <include
-        android:id="@+id/top"
-        android:layout_alignParentTop="true"
-        layout="@layout/topbar" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" >
+
+        <include
+            android:id="@+id/top"
+            layout="@layout/topbar" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linNodata"

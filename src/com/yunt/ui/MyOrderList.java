@@ -18,7 +18,6 @@ import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.utils.MyTextUtils;
-import com.dykj.contradiction.EventFragmentWorkFlow;
 import com.widget.customviewpager.TabSwipPager;
 
 public class MyOrderList extends BaseAct {
@@ -42,32 +41,7 @@ public class MyOrderList extends BaseAct {
 		getTopBar("我的订单");
 		showDialog();
 		initCarownerList();
-		initParkownerList();
 
-	}
-
-	// 我出租的车位
-	private void initParkownerList() {
-		String url = PathConfig.ADDRESS + "/trad/order/parkowner/list";
-		url = MyTextUtils.urlPlusFoot(url);
-
-		StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
-			@Override
-			public void onResponse(String response) {
-				String jsondata = response.toString();
-
-				ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) JSON.parseObject(
-						jsondata, new TypeReference<ArrayList<HashMap<String, String>>>() {
-						});
-
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-
-			}
-		});
-		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 	}
 
 	// 我租到的车位
@@ -99,12 +73,11 @@ public class MyOrderList extends BaseAct {
 
 	private void initView() {
 
-		tags = new String[] { "全部", "待支付", "订单超时", "已完成" };
+		tags = new String[] { "全部", "待支付", "待使用" };
 		fragmentsList = new ArrayList<Fragment>();
 		fragmentsList.add(new CarOwnerOrderFragment());
-		fragmentsList.add(new CarOwnerOrderFragment());
-		fragmentsList.add(new CarOwnerOrderFragment());
-		fragmentsList.add(new EventFragmentWorkFlow());
+		fragmentsList.add(new NoPayFragment());
+		fragmentsList.add(new NoUseFragment());
 
 		llTabSwipPager = (LinearLayout) findViewById(R.id.llTabSwipPager);
 		tabSwipPager = new TabSwipPager(MyOrderList.this, getSupportFragmentManager(), llTabSwipPager);

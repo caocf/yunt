@@ -35,7 +35,6 @@ import com.amap.api.services.help.Tip;
 import com.bepo.R;
 import com.bepo.core.BaseAct;
 import com.bepo.utils.MyTextUtils;
-import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 //时间:2015年10月14日15:04:47
 //遗留问题:区域编码和城市编码对搜索造成的影响 
@@ -68,7 +67,7 @@ public class AddressAutoSearchActivity extends BaseAct implements TextWatcher, O
 		city = getIntent().getExtras().getString("city");
 		city = city.replace("市", "");
 		initView();
-		// initListViewData(defaultAddress);
+		initListViewData(defaultAddress);
 
 	}
 

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF"
+    android:background="#F1F3F4"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/rltopBar"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dip" >
+        android:layout_height="140dp"
+        android:background="#9F3A3E" >
 
         <ImageView
             android:id="@+id/ivHead"
@@ -18,7 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/menu_icn_head" />
+            android:background="@drawable/maxicon" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="普通会员"
-                android:textColor="#9C9C9C"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="普通会员"
-                android:textColor="#9C9C9C"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -57,7 +57,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -70,9 +71,9 @@
 
             <ImageView
                 android:id="@+id/ivMessage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_message" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_msg" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,9 +93,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_wallet" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_store" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,9 +115,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_wallet" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_level" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,9 +137,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_wallet" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_free" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,9 +159,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_order" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_cloud" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +182,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -194,9 +195,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_setting" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_set" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -216,9 +217,9 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/menu_icn_invitation" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topmenu_icn_night" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -233,7 +234,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:background="@drawable/menu_line" />
+            android:background="@drawable/menu_line"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linQuit"
@@ -246,7 +248,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/quit" />
+                android:background="@drawable/topmenu_icn_exit" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -73,7 +71,12 @@ public class CarOwnerListAdapter extends CustomAdapter {
 			viewCache = new ViewHolder();
 			viewCache.tvCreatTime = (TextView) rowView.findViewById(R.id.tvCreatTime);
 			viewCache.tvOrderNumber = (TextView) rowView.findViewById(R.id.tvOrderNumber);
+
 			viewCache.tvStartTime = (TextView) rowView.findViewById(R.id.tvStartTime);
+			viewCache.tvEndTime = (TextView) rowView.findViewById(R.id.tvEndTime);
+			viewCache.tvParkName = (TextView) rowView.findViewById(R.id.tvParkName);
+			viewCache.tvParkNum = (TextView) rowView.findViewById(R.id.tvParkNum);
+
 			viewCache.tvRentType = (TextView) rowView.findViewById(R.id.tvRentType);
 			viewCache.tvOrderDetail = (TextView) rowView.findViewById(R.id.tvOrderDetail);
 			viewCache.tvPriceCount = (TextView) rowView.findViewById(R.id.tvPriceCount);
@@ -101,14 +104,32 @@ public class CarOwnerListAdapter extends CustomAdapter {
 
 		if (!(null == data.get(position).get("BEGIN_TIME"))) {
 			String beginTime = data.get(position).get("BEGIN_TIME").toString();
-			beginTime = StringUtils.replaceOnce(beginTime, "-", "年");
-			beginTime = StringUtils.replaceOnce(beginTime, "-", "月");
-			beginTime = StringUtils.replaceOnce(beginTime, " ", "日");
-			beginTime = StringUtils.replaceOnce(beginTime, ":", "时");
-			beginTime = StringUtils.replaceOnce(beginTime, ":", "分");
-			beginTime = beginTime + "秒";
 			viewCache.tvStartTime.setText(beginTime);
 		}
+
+		if (!(null == data.get(position).get("END_TIME"))) {
+			String endTime = data.get(position).get("END_TIME").toString();
+			viewCache.tvEndTime.setText(endTime);
+		}
+
+		if (!(null == data.get(position).get("PARK_ADDRESS"))) {
+			String parkName = data.get(position).get("PARK_ADDRESS").toString();
+			viewCache.tvParkName.setText(parkName);
+		}
+
+		if (!(null == data.get(position).get("PARK_NUMBER"))) {
+
+			String parkNum = data.get(position).get("PARK_NUMBER").toString();
+			String ParkPlate = "";
+
+			if (!(null == data.get(position).get("PLATE"))) {
+				ParkPlate = data.get(position).get("PLATE").toString();
+				data.get(position).get("PLATE").toString();
+			}
+
+			viewCache.tvParkNum.setText(parkNum + " " + ParkPlate);
+		}
+
 		if (!(null == data.get(position).get("CODE_RENT_TYPE_NAME"))) {
 			viewCache.tvRentType.setText(data.get(position).get("CODE_RENT_TYPE_NAME").toString());
 			if (data.get(position).get("CODE_RENT_TYPE_NAME").toString().equals("时租")) {
@@ -178,8 +199,8 @@ public class CarOwnerListAdapter extends CustomAdapter {
 
 	private class ViewHolder {
 
-		public TextView tvRentType, tvOrderNumber, tvOrderDetail, tvPriceCount, tvStatus, tvStartTime, tvDanjia,
-				tvCreatTime, tvDanwei;
+		public TextView tvRentType, tvOrderNumber, tvOrderDetail, tvPriceCount, tvStatus, tvStartTime, tvEndTime,
+				tvDanjia, tvCreatTime, tvDanwei, tvParkName, tvParkNum;
 		public RelativeLayout rlPay, rlzxing, rlJieSuan, rlPingjia;
 		public LinearLayout linBTN;
 

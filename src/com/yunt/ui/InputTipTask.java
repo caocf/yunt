@@ -19,15 +19,6 @@ import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
 import com.amap.api.services.help.Tip;
 
-/**
- * ClassName:InputTipTask <br/>
- * Function: 简单封装了Inputtips的搜索服务，将其余提示的adapter进行数据绑定 Date: 2015年4月7日 上午10:42:41 <br/>
- * 
- * @author yiyi.qi
- * @version
- * @since JDK 1.6
- * @see
- */
 public class InputTipTask implements InputtipsListener {
 
 	private static InputTipTask mInputTipTask;
@@ -69,7 +60,7 @@ public class InputTipTask implements InputtipsListener {
 		if (resultCode == 0 && tips != null) {
 			ArrayList<PositionEntity> positions = new ArrayList<PositionEntity>();
 			for (Tip tip : tips) {
-				positions.add(new PositionEntity(0, 0, tip.getName(), "", tip.getAdcode(), ""));
+				positions.add(new PositionEntity(0, 0, tip.getName(), "", "", tip.getAdcode(), ""));
 			}
 			mAdapter.setPositionEntities(positions);
 			mAdapter.notifyDataSetChanged();

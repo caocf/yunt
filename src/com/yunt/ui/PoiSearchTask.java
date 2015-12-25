@@ -52,7 +52,6 @@ public class PoiSearchTask implements OnPoiSearchListener {
 		poiSearch.searchPOIAsyn();
 	}
 
-	
 	@Override
 	public void onPoiSearched(PoiResult poiResult, int resultCode) {
 		if (resultCode == 0 && poiResult != null) {
@@ -63,7 +62,7 @@ public class PoiSearchTask implements OnPoiSearchListener {
 			List<PositionEntity> entities = new ArrayList<PositionEntity>();
 			for (PoiItem poiItem : pois) {
 				PositionEntity entity = new PositionEntity(poiItem.getLatLonPoint().getLatitude(), poiItem
-						.getLatLonPoint().getLongitude(), poiItem.getTitle(), poiItem.getProvinceName(),
+						.getLatLonPoint().getLongitude(), poiItem.getTitle(), "", poiItem.getProvinceName(),
 						poiItem.getCityName(), poiItem.getCityCode());
 				entities.add(entity);
 			}

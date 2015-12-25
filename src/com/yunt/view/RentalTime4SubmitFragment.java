@@ -80,14 +80,14 @@ public class RentalTime4SubmitFragment extends Fragment implements OnClickListen
 
 		time = new ArrayList<String>();
 		for (int i = 0; i < 24; i++) {
-			String s = i + " ";
+			String s = i + "";
 			if (i < 10) {
 				s = "0" + s;
 			}
-			time.add(s + ": " + "00");
-			time.add(s + ": " + "15");
-			time.add(s + ": " + "30");
-			time.add(s + ": " + "45");
+			time.add(s + ":" + "00");
+			time.add(s + ":" + "15");
+			time.add(s + ":" + "30");
+			time.add(s + ":" + "45");
 		}
 
 		String[] array = new String[time.size()];

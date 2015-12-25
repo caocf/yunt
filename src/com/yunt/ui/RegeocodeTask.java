@@ -1,11 +1,3 @@
-/**  
- * Project Name:Android_Car_Example  
- * File Name:RegeocodeTask.java  
- * Package Name:com.amap.api.car.example  
- * Date:2015年4月2日下午6:24:53  
- *  
- */
-
 package com.yunt.ui;
 
 import android.content.Context;
@@ -22,10 +14,6 @@ import com.amap.api.services.geocoder.RegeocodeResult;
  * Function: 简单的封装的逆地理编码功能 <br/>
  * Date: 2015年4月2日 下午6:24:53 <br/>
  * 
- * @author yiyi.qi
- * @version
- * @since JDK 1.6
- * @see
  */
 public class RegeocodeTask implements OnGeocodeSearchListener {
 	private static final float SEARCH_RADIUS = 50;
@@ -60,13 +48,21 @@ public class RegeocodeTask implements OnGeocodeSearchListener {
 					&& mOnLocationGetListener != null) {
 
 				String address = regeocodeReult.getRegeocodeAddress().getFormatAddress();
+
+				// 用来传递给列表
+				String address4Search = address.replace(regeocodeReult.getRegeocodeAddress().getCity(), "");
+				address4Search = address.replace(regeocodeReult.getRegeocodeAddress().getTownship(), "");
+				address4Search = address.replace(regeocodeReult.getRegeocodeAddress().getDistrict(), "");
+				if (address4Search.contains("靠近")) {
+					address4Search = address.replace("靠近", "");
+				}
+
 				String city = regeocodeReult.getRegeocodeAddress().getCity();
 				String citycode = regeocodeReult.getRegeocodeAddress().getCityCode();
 
 				PositionEntity entity = new PositionEntity();
-				entity.address = address;
-
 				entity.address = address.replace(regeocodeReult.getRegeocodeAddress().getProvince(), "");
+				entity.address4Search = address4Search;
 				entity.city = city;
 				entity.cityCode = citycode;
 				mOnLocationGetListener.onRegecodeGet(entity);
@@ -74,5 +70,4 @@ public class RegeocodeTask implements OnGeocodeSearchListener {
 			}
 		}
 	}
-
 }

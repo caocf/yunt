@@ -1,5 +1,7 @@
 # cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1399364296000 648327 ded9acc6a9792b8f1afc470f0c9cd36d178914cd /Users/kefanbufan/Documents/workspace/android-support-v7-appcompat/libs/android-support-v4.jar
 1399364296000 648327 ded9acc6a9792b8f1afc470f0c9cd36d178914cd /Users/kefanbufan/Documents/CityList/libs/android-support-v4.jar
+1399364296000 648327 ded9acc6a9792b8f1afc470f0c9cd36d178914cd /Users/kefanbufan/Documents/workspace/android-support-v7-appcompat/libs/android-support-v4.jar
+1450948701000 37587 9bd1bb5ea9ee043fb215b54551f9fa86e56c415e /Users/kefanbufan/Documents/workspace/SimaScaffold/SimaScaffold/libs/okhttputils.jar
+1450948701000 37587 9bd1bb5ea9ee043fb215b54551f9fa86e56c415e /Users/kefanbufan/Documents/workspace/MaxGSM/libs/okhttputils.jar

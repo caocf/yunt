@@ -12,13 +12,13 @@
         android:gravity="center_vertical" >
 
         <TextView
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/titblebar_back_btn"
+            android:background="@drawable/titlebar_btn"
+            android:gravity="center"
             android:text="返回"
             android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
@@ -31,14 +31,15 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/tvRight"
+        android:id="@+id/tvSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="13dp"
-        android:text=""
-        android:textColor="@color/tab_gary"
-        android:textSize="20sp" />
+        android:background="@drawable/titlebar_btn"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

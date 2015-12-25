@@ -183,6 +183,7 @@ public class ModifyPark extends BaseAct {
 				}
 
 				tvPlate.setText(detailMap.get("PLATE"));
+				// Log.e("车牌", detailMap.get("PLATE"));
 				tvPriceHour.setText(detailMap.get("PRICE_HOUR") + "元/时");
 				tvPriceMonth.setText(detailMap.get("PRICE_MONTH") + "元/月");
 				tvXingqi.setText(detailMap.get("WEEKNAME"));
@@ -232,7 +233,6 @@ public class ModifyPark extends BaseAct {
 	// // 得到基本信息的数据
 	// @SuppressWarnings("unchecked")
 	// private void getBascinfo() {
-	// // TODO
 	//
 	// // 地图定位
 	// TextView temp = (TextView) this.findViewById(R.id.tvMapAddress);

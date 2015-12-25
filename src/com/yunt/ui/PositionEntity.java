@@ -1,25 +1,5 @@
-/**  
- * Project Name:Android_Car_Example  
- * File Name:PositionEntity.java  
- * Package Name:com.amap.api.car.example  
- * Date:2015年4月3日上午9:50:28  
- *  
- */
-
 package com.yunt.ui;
 
-import com.liucanwen.citylist.R.string;
-
-/**
- * ClassName:PositionEntity <br/>
- * Function: 封装的关于位置的实体 <br/>
- * Date: 2015年4月3日 上午9:50:28 <br/>
- * 
- * @author yiyi.qi
- * @version
- * @since JDK 1.6
- * @see
- */
 public class PositionEntity {
 
 	public double latitue;
@@ -28,15 +8,17 @@ public class PositionEntity {
 	public String city;
 	public String province;
 	public String cityCode;
+	public String address4Search;
 
 	public PositionEntity() {
 	}
 
-	public PositionEntity(double latitude, double longtitude, String address, String province, String city,
-			String cityCode) {
+	public PositionEntity(double latitude, double longtitude, String address, String address4Search,
+			String province, String city, String cityCode) {
 		this.latitue = latitude;
 		this.longitude = longtitude;
 		this.address = address;
+		this.address4Search = address4Search;
 		this.province = province;
 		this.cityCode = cityCode;
 	}

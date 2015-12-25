@@ -61,7 +61,7 @@ public class VolleyCommonPost extends Request<JSONObject> {
 	//
 	@Override
 	public RetryPolicy getRetryPolicy() {
-		RetryPolicy retryPolicy = new DefaultRetryPolicy(50000000, 1, 1.0f);
+		RetryPolicy retryPolicy = new DefaultRetryPolicy(500000000, 1, 1.0f);
 		return retryPolicy;
 	}
 

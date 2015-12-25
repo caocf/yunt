@@ -32,7 +32,8 @@ import com.bepo.R;
  */
 public class RecomandAdapter extends BaseAdapter {
 
-	PositionEntity[] entities = new PositionEntity[] { new PositionEntity(39.908722, 116.397496, "天安门", "","010", "") };
+	PositionEntity[] entities = new PositionEntity[] { new PositionEntity(39.908722, 116.397496, "天安门", "", "",
+			"010", "") };
 
 	private List<PositionEntity> mPositionEntities;
 

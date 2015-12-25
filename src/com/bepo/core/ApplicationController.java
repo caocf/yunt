@@ -1,6 +1,7 @@
 package com.bepo.core;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Application;
 import android.content.Context;
@@ -21,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.okhttp.OkHttpUtils;
+import com.squareup.okhttp.OkHttpClient;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -82,6 +85,10 @@ public class ApplicationController extends Application {
 		// API调用前，需要先向微信注册您的APP)
 		msgApi = WXAPIFactory.createWXAPI(this, null);
 		msgApi.registerApp(PayID.APP_ID);
+
+		// okhttp 初始化
+		OkHttpClient client = OkHttpUtils.getInstance().getOkHttpClient();
+		client.setConnectTimeout(200000, TimeUnit.MILLISECONDS);
 
 	}
 

@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -41,6 +40,7 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.NaviPara;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -63,54 +63,69 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 	private MapView mMapView;
 	private static AMap mAmap;
 	private static ArrayList<Marker> markers = new ArrayList<Marker>();
-	private Button mDestinationButton;
 	private static Marker mPositionMark;
-	private LinearLayout mDestinationContainer;
-	private TextView mRouteCostText;
-	private TextView mDesitinationText;
 	private ImageView mLocationImage;
 	private ImageView ivPlus;
 	private ImageView ivMessage;
+	private ImageView ivSwitch;
 	private LinearLayout linCarPop;
-	private Button mCancelButton;
 
+	private RelativeLayout rlAddress;
 	private TextView tvAddress;
 	private static TextView tvPosition;
 
-	private RelativeLayout rlAddress;
 	private LinearLayout linLeft;
 	private RelativeLayout rlRight;
 	private LinearLayout linMessage, linOrder, linVoucher, linAbout, linMyCarPort, linQuit, linSetting,
 			linMyWallet;
 	private TextView tvUserName;
 	private ImageView my_zoom_out, my_zoom_in;
-	private RegeocodeTask mRegeocodeTask;
-	private LocationTask mLocationTask;
 
-	private boolean mIsRouteSuccess = false;
+	private LatLng locationPosition;
 	private LatLng mStartPosition;
 	private LatLng mEndPosition;
-	private String addres;
 	private String parkOwnerName;
 	private String code;
 	private String parkOwnerPhone;
-	private String starNumber;
-	private String hourPay;
-	private String monthPay;
-	private String releaseType;
-	private String userCode;
 	public static String city;
 	public static String defaultAddress;
 
 	private SharedPreferences sp;
+	private RegeocodeTask mRegeocodeTask;
+	private LocationTask mLocationTask;
 
 	public static ArrayList<HashMap<String, String>> data;
 	HashMap<String, String> temp;
-	Map<String, String> CurrentAccountMap = new HashMap<String, String>();// session信息相关
+	Map<String, String> CurrentAccountMap = new HashMap<String, String>();
 	public static long firstTime = 0;
 	String juli = "";
 
 	TimelineView tl;
+	Boolean nowIsSiren = true;
+	Boolean isFisrt = true;
+
+	// 个人弹出框
+	RelativeLayout map_pop;
+	TextView tvHours;
+	TextView tvMonth;
+	TextView tvParkAddress;
+	TextView tvAddressDes;
+	TextView tvJuli;
+	TextView tvPhone;
+	TextView tvDetail;
+	RatingBar mSmallRatingBar;
+
+	// 商业弹出框
+	RelativeLayout map_pop_b;
+	TextView tvHoursb;
+	TextView tvMonthb;
+	TextView tvParkAddressb;
+	TextView tvAddressDesb;
+	TextView tvJulib;
+	TextView tvRouteb;
+	TextView tvDetailb;
+	TextView tvNowPark;
+	TextView tvNavi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +136,106 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		init(savedInstanceState);
 		initSlidingMenu();
 		initUser();
+		initMapPop();
+		initBusinessMapPop();
 
 		mLocationTask = LocationTask.getInstance(getApplicationContext());
 		mLocationTask.setOnLocationGetListener(this);
-
 		mRegeocodeTask = new RegeocodeTask(getApplicationContext());
-		// RouteTask.getInstance(getApplicationContext()).addRouteCalculateListener(this);
+	}
+
+	private void initMapPop() {
+		map_pop = (RelativeLayout) findViewById(R.id.map_pop);
+		tvHours = (TextView) this.findViewById(R.id.tvHours);
+		tvMonth = (TextView) this.findViewById(R.id.tvMonth);
+		tvParkAddress = (TextView) this.findViewById(R.id.tvParkAddress);
+		tvAddressDes = (TextView) this.findViewById(R.id.tvAddressDes);
+		tvJuli = (TextView) this.findViewById(R.id.tvJuli);
+		tvPhone = (TextView) this.findViewById(R.id.tvPhone);
+		tvPhone.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + parkOwnerPhone));
+				startActivity(intent);
+
+			}
+		});
+
+		tvDetail = (TextView) this.findViewById(R.id.tvDetail);
+		tvDetail.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent2 = new Intent(HomeAct2.this, ParkDetailAct2.class);
+				intent2.putExtra("code", code);
+				intent2.putExtra("ownerName", parkOwnerName);
+				intent2.putExtra("ownerPhone", parkOwnerPhone);
+				startActivity(intent2);
+			}
+		});
+
+		TextView tvRoute = (TextView) this.findViewById(R.id.tvRoute);
+		tvRoute.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(HomeAct2.this, RounteActivity.class);
+				intent.putExtra("startx", mStartPosition.latitude + "");
+				intent.putExtra("starty", mStartPosition.longitude + "");
+				intent.putExtra("endx", mEndPosition.latitude + "");
+				intent.putExtra("endy", mEndPosition.longitude + "");
+				intent.putExtra("allData", temp);
+				intent.putExtra("juli", juli);
+				startActivity(intent);
+
+			}
+		});
+
+		mSmallRatingBar = (RatingBar) this.findViewById(R.id.mSmallRatingBar);
+	}
+
+	private void initBusinessMapPop() {
+		map_pop_b = (RelativeLayout) findViewById(R.id.map_pop_business);
+
+		tvHoursb = (TextView) this.findViewById(R.id.tvHoursb);
+		tvMonthb = (TextView) this.findViewById(R.id.tvMonthb);
+		tvParkAddressb = (TextView) this.findViewById(R.id.tvParkAddressb);
+		tvAddressDesb = (TextView) this.findViewById(R.id.tvAddressDesb);
+		tvJulib = (TextView) this.findViewById(R.id.tvJulib);
+		tvNowPark = (TextView) this.findViewById(R.id.tvNowPark);
+
+		TextView tvRouteb = (TextView) this.findViewById(R.id.tvRouteBusinessb);
+		tvRouteb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(HomeAct2.this, RounteActivity2.class);
+				intent.putExtra("startx", mStartPosition.latitude + "");
+				intent.putExtra("starty", mStartPosition.longitude + "");
+				intent.putExtra("endx", mEndPosition.latitude + "");
+				intent.putExtra("endy", mEndPosition.longitude + "");
+				intent.putExtra("allData", temp);
+				intent.putExtra("juli", juli);
+				startActivity(intent);
+
+			}
+		});
+		tvDetailb = (TextView) this.findViewById(R.id.tvDetailBusinessb);
+		tvDetailb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent2 = new Intent(HomeAct2.this, ParkDetailAct2b.class);
+				intent2.putExtra("code", code);
+				// intent2.putExtra("ownerName", parkOwnerName);
+				// intent2.putExtra("ownerPhone", parkOwnerPhone);
+				startActivity(intent2);
+			}
+		});
+
+		tvNavi = (TextView) this.findViewById(R.id.tvNavi);
+		tvNavi.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startAMapNavi();
+			}
+		});
 
 	}
 
@@ -147,7 +256,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		mMapView.onCreate(savedInstanceState);
 		mAmap = mMapView.getMap();
 		mAmap.getUiSettings().setZoomControlsEnabled(false);
-		mAmap.getUiSettings().setZoomGesturesEnabled(false);// 手势缩放关闭
+		mAmap.getUiSettings().setZoomGesturesEnabled(true);// 手势缩放关闭
 
 		mAmap.setOnMapLoadedListener(this);
 		mAmap.setOnCameraChangeListener(this);
@@ -178,6 +287,26 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 		ivPlus = (ImageView) findViewById(R.id.ivPlus);
 		ivPlus.setOnClickListener(this);
+
+		ivSwitch = (ImageView) findViewById(R.id.ivSwitch);
+		ivSwitch.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (nowIsSiren) {
+					ivSwitch.setImageDrawable(getResources().getDrawable(R.drawable.shang));
+					nowIsSiren = false;
+					searchBusinessNearby(mAmap, mStartPosition);
+				} else {
+					ivSwitch.setImageDrawable(getResources().getDrawable(R.drawable.si));
+					nowIsSiren = true;
+					searchNearby(mAmap, mStartPosition);
+				}
+
+				map_pop.setVisibility(View.GONE);
+				map_pop_b.setVisibility(View.GONE);
+
+			}
+		});
 
 		// 自定义地图控件
 		mLocationImage = (ImageView) findViewById(R.id.location_image);
@@ -211,92 +340,86 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-		getMapPop(marker);
 
-		for (Marker marker0 : markers) {
-			View view = getLayoutInflater().inflate(R.layout.marker2, null);
+		if (nowIsSiren) {
+
+			for (Marker marker0 : markers) {
+				View view = getLayoutInflater().inflate(R.layout.marker2, null);
+				BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+				marker0.setIcon(bitmapDescriptor);
+			}
+			getMapPop(marker);
+			View view = getLayoutInflater().inflate(R.layout.marker2_p, null);
 			BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
-			marker0.setIcon(bitmapDescriptor);
+			marker.setIcon(bitmapDescriptor);
+		} else {
+
+			for (Marker marker0 : markers) {
+				View view = getLayoutInflater().inflate(R.layout.marker, null);
+				@SuppressWarnings("unchecked")
+				HashMap<String, String> temp = (HashMap<String, String>) marker0.getObject();
+				TextView tvPN = (TextView) view.findViewById(R.id.tvPN);
+				tvPN.setText(temp.get("NOW_PARK"));
+				BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+				marker0.setIcon(bitmapDescriptor);
+			}
+
+			getMapPopBusiness(marker);
+			View view = getLayoutInflater().inflate(R.layout.marker_p, null);
+
+			@SuppressWarnings("unchecked")
+			HashMap<String, String> temp = (HashMap<String, String>) marker.getObject();
+			TextView tvPN = (TextView) view.findViewById(R.id.tvPN);
+			tvPN.setText(temp.get("NOW_PARK"));
+
+			BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+			marker.setIcon(bitmapDescriptor);
 		}
 
-		View view = getLayoutInflater().inflate(R.layout.marker2_p, null);
-		BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
-		marker.setIcon(bitmapDescriptor);
-
-		String[] temp = marker.getSnippet().split(",");
-		addres = temp[1];
-		hourPay = temp[2];
-		monthPay = temp[3];
-		releaseType = temp[4];
-		userCode = temp[5];
-		parkOwnerName = temp[6];
-		parkOwnerPhone = temp[7];
-		starNumber = temp[7];
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
+	private void getMapPopBusiness(Marker marker) {
+		isFisrt = false;
+		temp = (HashMap<String, String>) marker.getObject();
+		code = temp.get("CODE");
+
+		tvHoursb.setText(temp.get("PRICE_HOUR") + "元/小时,");
+		tvMonthb.setText(temp.get("PRICE_MONTH") + "元/月");
+		tvParkAddressb.setText(temp.get("CAR_PARK_NAME"));
+		tvAddressDesb.setText(temp.get("ADDRESS"));
+		tvNowPark.setText(temp.get("NOW_PARK"));
+
+		Double ey = Double.valueOf(temp.get("POSITION_Y"));
+		Double ex = Double.valueOf(temp.get("POSITION_X"));
+
+		mEndPosition = new LatLng(ey, ex);
+
+		float floats = AMapUtils.calculateLineDistance(locationPosition, mEndPosition);
+		int i = (int) floats;
+		if (i - 1000 > 0) {
+			juli = i / 100 + "km";
+		} else {
+			juli = i + "m";
+		}
+		tvJulib.setText(juli);
+
+		if (!temp.get("CODE_TRAD_STATUS").toString().equals("1896")) {
+			tvDetailb.setVisibility(View.GONE);
+		}
+
+		if (map_pop_b.getVisibility() > 0) {
+			map_pop_b.setVisibility(View.VISIBLE);
+			map_pop.setVisibility(View.GONE);
+			YoYo.with(Techniques.SlideInLeft).duration(50).playOn(findViewById(R.id.map_pop));
+		} else {
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	private void getMapPop(Marker marker) {
-		RelativeLayout map_pop = (RelativeLayout) findViewById(R.id.map_pop);
-		map_pop.setOnClickListener(this);
-
-		TextView tvHours = (TextView) this.findViewById(R.id.tvHours);
-		TextView tvMonth = (TextView) this.findViewById(R.id.tvMonth);
-		TextView tvParkAddress = (TextView) this.findViewById(R.id.tvParkAddress);
-		TextView tvAddressDes = (TextView) this.findViewById(R.id.tvAddressDes);
-		TextView tvJuli = (TextView) this.findViewById(R.id.tvJuli);
-		TextView tvPhone = (TextView) this.findViewById(R.id.tvPhone);
-		tvPhone.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-
-				Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + parkOwnerPhone));
-				startActivity(intent);
-
-				// 时间轴
-				// HashMap<String, String> map = new HashMap<String, String>();
-				// map.put("freeTimeStartFlag", "8:15");
-				// map.put("freeTimeEndFlag", "17:15");
-				// map.put("bookTimeStartFlag", "10:00");
-				// map.put("bookTimeEndFlag", "12:00");
-
-				// TimelineView tl = (TimelineView)
-				// this.findViewById(R.id.timelineView);
-				// tl.setSize(map);
-
-			}
-		});
-
-		TextView tvDetail = (TextView) this.findViewById(R.id.tvDetail);
-		tvDetail.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent2 = new Intent(HomeAct2.this, ParkDetailAct.class);
-				intent2.putExtra("code", code);
-				intent2.putExtra("ownerName", parkOwnerName);
-				intent2.putExtra("ownerPhone", parkOwnerPhone);
-				startActivity(intent2);
-			}
-		});
-
-		TextView tvRoute = (TextView) this.findViewById(R.id.tvRoute);
-		tvRoute.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(HomeAct2.this, RounteActivity.class);
-				intent.putExtra("startx", mStartPosition.latitude + "");
-				intent.putExtra("starty", mStartPosition.longitude + "");
-				intent.putExtra("endx", mEndPosition.latitude + "");
-				intent.putExtra("endy", mEndPosition.longitude + "");
-				intent.putExtra("allData", temp);
-				intent.putExtra("juli", juli);
-				startActivity(intent);
-
-			}
-		});
-
-		RatingBar mSmallRatingBar = (RatingBar) this.findViewById(R.id.mSmallRatingBar);
-
+		isFisrt = false;
 		temp = (HashMap<String, String>) marker.getObject();
 		parkOwnerPhone = temp.get("PARK_PHONE");
 		parkOwnerName = temp.get("PARK_NAME");
@@ -314,74 +437,66 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 		mEndPosition = new LatLng(ey, ex);
 
-		float floats = AMapUtils.calculateLineDistance(mStartPosition, mEndPosition);
+		float floats = AMapUtils.calculateLineDistance(locationPosition, mEndPosition);
 		int i = (int) floats;
-
 		if (i - 1000 > 0) {
 			juli = i / 100 + "km";
-
 		} else {
 			juli = i + "m";
 		}
 
 		tvJuli.setText(juli);
 
-		// TODO
 		// 时间轴
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("freeTimeStartFlag", temp.get("START_TIME"));
 		map.put("freeTimeEndFlag", temp.get("END_TIME"));
 		map.put("bookList", temp.get("TIME_LIST"));
 
-		// 测试数据
-		// ArrayList<HashMap<String, String>> s = new ArrayList<HashMap<String,
-		// String>>();
-		//
-		// HashMap<String, String> hashmap = new HashMap<String, String>();
-		// hashmap.put("TYPE", "shi");
-		// hashmap.put("BEGIN_TIME", "12:00");
-		// hashmap.put("END_TIME", "14:00");
-		// hashmap.put("DAY", "jin");
-		// s.add(hashmap);
-		//
-		// hashmap = new HashMap<String, String>();
-		// hashmap.put("TYPE", "shi");
-		// hashmap.put("BEGIN_TIME", "9:00");
-		// hashmap.put("END_TIME", "13:00");
-		// hashmap.put("DAY", "ming");
-		//
-		// s.add(hashmap);
-		//
-		// map.put("TIME_LIST", s);
-
 		tl = (TimelineView) this.findViewById(R.id.timelineView);
 		tl.setSize(map);
 
 		if (map_pop.getVisibility() > 0) {
 			map_pop.setVisibility(View.VISIBLE);
+			map_pop_b.setVisibility(View.GONE);
 			YoYo.with(Techniques.SlideInLeft).duration(50).playOn(findViewById(R.id.map_pop));
 		} else {
-			// YoYo.with(Techniques.Wobble).duration(1000).playOn(findViewById(R.id.map_pop));
 		}
 
 	}
 
 	@Override
 	public void onCameraChange(CameraPosition arg0) {
+		map_pop.setVisibility(View.GONE);
+		map_pop_b.setVisibility(View.GONE);
 	}
 
 	@Override
 	public void onCameraChangeFinish(CameraPosition cameraPosition) {
+
+		// if (!isFisrt) {
+		// if (nowIsSiren) {
+		// map_pop.setVisibility(View.VISIBLE);
+		// } else {
+		// map_pop_b.setVisibility(View.VISIBLE);
+		// }
+		// }
+
 		linCarPop.setVisibility(View.VISIBLE);
 		ivPlus.setVisibility(View.VISIBLE);
 
 		mStartPosition = cameraPosition.target;
 		mRegeocodeTask.setOnLocationGetListener(this);
 		mRegeocodeTask.search(mStartPosition.latitude, mStartPosition.longitude);
-		searchNearby(mAmap, mStartPosition);
+		if (nowIsSiren) {
+			searchNearby(mAmap, mStartPosition);
+		} else {
+			searchBusinessNearby(mAmap, mStartPosition);
+		}
+
 		if (mAmap.getMapScreenMarkers().size() <= 0) {
 			tvPosition.setText("正在搜索车位...");
-			YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.linCarPop));
+			// YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.linCarPop));
 		}
 
 	}
@@ -403,6 +518,47 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 				HomeAct2.data = data;
 				addMarkers(amap, data);
+
+				if (data.size() > 0) {
+					HomeAct2.setCarPop("附近有" + data.size() + "个可用车位");
+					new Handler().postDelayed(new Runnable() {
+						public void run() {
+							// YoYo.with(Techniques.ZoomOutDown).duration(400).playOn(findViewById(R.id.linCarPop));
+							linCarPop.setVisibility(View.GONE);
+						}
+					}, 1500);
+				} else {
+					HomeAct2.setCarPop("附近没有可用车位,请移动地图");
+				}
+
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		ApplicationController.getInstance().addToRequestQueue(stringRequest);
+
+	}
+
+	public void searchBusinessNearby(final AMap amap, LatLng center) {
+
+		String lon = center.longitude + "";
+		String lat = center.latitude + "";
+
+		String url = PathConfig.ADDRESS + "/base/bbusinesspark/near?lon=" + lon + "&lat=" + lat;
+		StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				String jsondata = response.toString();
+
+				ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) JSON.parseObject(
+						jsondata, new TypeReference<ArrayList<HashMap<String, String>>>() {
+						});
+
+				HomeAct2.data = data;
+				addBusinessMarkers(amap, data);
 
 				if (data.size() > 0) {
 					HomeAct2.setCarPop("附近有" + data.size() + "个可用车位");
@@ -438,6 +594,41 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		for (int j = 0; j < data.size(); j++) {
 
 			View view = getLayoutInflater().inflate(R.layout.marker2, null);
+
+			BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+			double Position_x = Double.parseDouble(data.get(j).get("POSITION_X").toString());
+			double Position_y = Double.parseDouble(data.get(j).get("POSITION_Y").toString());
+
+			MarkerOptions markerOptions = new MarkerOptions();
+			markerOptions.setFlat(true);
+			markerOptions.anchor(0.5f, 0.5f);
+			markerOptions.icon(bitmapDescriptor);
+			markerOptions.position(new LatLng(Position_y, Position_x));
+			markerOptions.setFlat(true);
+
+			HashMap<String, String> temp = new HashMap<String, String>();
+			temp = data.get(j);
+			Marker marker = aMap.addMarker(markerOptions);
+			marker.setObject(temp);
+			markers.add(marker);
+
+		}
+
+	}
+
+	private void addBusinessMarkers(AMap aMap, ArrayList<HashMap<String, String>> data1) {
+
+		if (markers.size() > 0) {
+			for (Marker marker : markers) {
+				marker.remove();
+			}
+		}
+
+		for (int j = 0; j < data.size(); j++) {
+
+			View view = getLayoutInflater().inflate(R.layout.marker, null);
+			TextView tvPN = (TextView) view.findViewById(R.id.tvPN);
+			tvPN.setText(data.get(j).get("NOW_PARK"));
 
 			BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
 			double Position_x = Double.parseDouble(data.get(j).get("POSITION_X").toString());
@@ -514,14 +705,14 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 			startActivityForResult(intent, 0);
 			break;
 
-		case R.id.map_pop:
-			//
-			// Intent intent = new Intent(this, ParkDetailAct.class);
-			// intent.putExtra("code", marker.getSnippet().toString());
-			// intent.putExtra("ownerName", parkOwnerName);
-			// intent.putExtra("ownerPhone", parkOwnerPhone);
-			// startActivity(intent);
-			break;
+		// case R.id.map_pop:
+		//
+		// Intent intent = new Intent(this, ParkDetailAct.class);
+		// intent.putExtra("code", marker.getSnippet().toString());
+		// intent.putExtra("ownerName", parkOwnerName);
+		// intent.putExtra("ownerPhone", parkOwnerPhone);
+		// startActivity(intent);
+		// break;
 
 		// 位置搜索栏_bottom
 		case R.id.rlAddress:
@@ -637,9 +828,11 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 		tvAddress.setText(entity.address);
 		city = entity.city;
-		defaultAddress = entity.address;
+		defaultAddress = entity.address4Search;
 
 		mStartPosition = new LatLng(entity.latitue, entity.longitude);
+		locationPosition = new LatLng(entity.latitue, entity.longitude);
+
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
 				mAmap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(
@@ -654,8 +847,8 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 	public void onRegecodeGet(PositionEntity entity) {
 
 		tvAddress.setText(entity.address);
-		// defaultAddress = entity.address;
-		// city = entity.city;
+		defaultAddress = entity.address4Search;
+		city = entity.city;
 		entity.latitue = mStartPosition.latitude;
 		entity.longitude = mStartPosition.longitude;
 
@@ -698,9 +891,9 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 			public void onResponse(String response) {
 				String jsondata = response.toString();
 				if (!MyTextUtils.isEmpty(jsondata)) {
-					ivMessage.setImageDrawable(getResources().getDrawable(R.drawable.menu_icn_message_red));
+					ivMessage.setImageDrawable(getResources().getDrawable(R.drawable.topmenu_icn_msg));
 				} else {
-					ivMessage.setImageDrawable(getResources().getDrawable(R.drawable.menu_icn_message));
+					ivMessage.setImageDrawable(getResources().getDrawable(R.drawable.topmenu_icn_msg_dian));
 				}
 			}
 		}, new Response.ErrorListener() {
@@ -726,6 +919,29 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 	}
 
 	// ===================================================
+
+	/**
+	 * 调起高德地图导航功能，如果没安装高德地图，会进入异常，可以在异常中处理，调起高德地图app的下载页面
+	 */
+	public void startAMapNavi() {
+		// 构造导航参数
+		NaviPara naviPara = new NaviPara();
+		// 设置终点位置
+		naviPara.setTargetPoint(mEndPosition);
+		// 设置导航策略，这里是避免拥堵
+		naviPara.setNaviStyle(NaviPara.DRIVING_AVOID_CONGESTION);
+
+		// 调起高德地图导航
+		try {
+			AMapUtils.openAMapNavi(naviPara, getApplicationContext());
+		} catch (com.amap.api.maps.AMapException e) {
+			// 如果没安装会进入异常，调起下载页面
+			AMapUtils.getLatestAMapApp(getApplicationContext());
+
+		}
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

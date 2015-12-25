@@ -27,7 +27,7 @@
                     android:id="@+id/tvParkAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="景泰翰林"
+                    android:text="1234"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:text="20m"
+                    android:text="00"
                     android:textColor="@color/tag_blue"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -70,7 +70,7 @@
                 android:id="@+id/tvHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4元/小时,"
+                android:text="00"
                 android:textColor="@color/gray_user_bg"
                 android:textSize="16sp" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="250元/月"
+                android:text="00"
                 android:textColor="@color/gray_user_bg"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="河北省唐山市路北区果园乡景泰翰林附近"
+            android:text="00"
             android:textColor="@color/gray_user_bg"
             android:textSize="15sp" />
 

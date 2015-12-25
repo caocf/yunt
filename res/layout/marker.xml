@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="28dp"
-        android:layout_height="42dp"
+        android:layout_height="40dp"
         android:layout_centerInParent="true"
         android:background="@drawable/pp_green_parkno_checked" >
 
@@ -15,10 +15,11 @@
             android:layout_centerHorizontal="true" >
 
             <TextView
+                android:id="@+id/tvPN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="9"
+                android:text="null"
                 android:textColor="#04B177"
                 android:textSize="14sp"
                 android:textStyle="bold" />

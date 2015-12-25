@@ -14,4 +14,21 @@ public class TimeUtil {
 		return sd;
 	}
 
+	public static String getToday() {
+		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd ");
+		java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+		calendar.roll(java.util.Calendar.DAY_OF_YEAR, 0);
+		return df.format(calendar.getTime());
+
+	}
+
+	public static String getTomorrow() {
+		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd ");
+		java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+		calendar.roll(java.util.Calendar.DAY_OF_YEAR, 1);
+		return df.format(calendar.getTime());
+
+	}
 }

@@ -33,7 +33,6 @@ public class BaseAct extends FragmentActivity {
 		// v.setVisibility(View.GONE);
 	}
 
-	
 	@Override
 	public void finish() {
 		super.finish();
@@ -57,6 +56,10 @@ public class BaseAct extends FragmentActivity {
 			v.setVisibility(View.GONE);
 		}
 
+	}
+
+	public Boolean dialogIsExist() {
+		return v.getVisibility() > 0;
 	}
 
 	public void noBack(String arg0) {

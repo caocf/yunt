@@ -43,6 +43,11 @@ public class MyTextUtils {
 
 	};
 
+	public static Boolean isZimu(String s) {
+		String reg = "[a-zA-Z]";
+		return s.matches(reg);
+	}
+
 	public static void showToast(final String toast, final Context context) {
 		new Thread(new Runnable() {
 

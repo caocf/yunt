@@ -14,14 +14,21 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.bepo.utils.MyTextUtils;
-
 public class TimelineView extends View {
 	private Paint mPaint;
 	String[] hour = { "0", "3", "6", "9", "12", "15", "18", "21", "24" };
 
+	// 不跨天的开始时间和长度
 	private int freeTimeStartFlag = -1;
 	private int freeTimeSize = -1;
+
+	// 跨天的开始时间和长度
+
+	private int kuatianS = 0;// 开始时间为当日 0时
+	private int kuatianE = -1;// 结束时间为传递过来的结束时间
+
+	private int kuatianS2 = -1;// 开始时间为传递过来的开始时间
+	private int kuatianE2 = 24;// 结束时间为当日 24时
 
 	ArrayList<HashMap<String, String>> timelineBookList = new ArrayList<HashMap<String, String>>();
 
@@ -30,7 +37,7 @@ public class TimelineView extends View {
 
 	String nowTime;
 	int nowTimeFlag;
-
+	Boolean isKuaTian = true;
 	Rect rect;
 
 	public TimelineView(Context context, HashMap<String, String> map) {
@@ -76,42 +83,58 @@ public class TimelineView extends View {
 	@SuppressWarnings("unchecked")
 	public void setSize(HashMap<String, Object> map) {
 
-		Log.e("setSize=======", "setSize");
+		// Log.e("setSize=======", "setSize");
 
 		// 计算当前时间
 		getNowTime();
-		Log.e("nowTime", nowTime);
+		// Log.e("nowTime", nowTime);
 		int n = Integer.parseInt(nowTime.split(":")[0]);// 小时
 		int i = Integer.parseInt(nowTime.split(":")[1]);// 分钟
 		this.nowTimeFlag = n * 12 + countTime(i);
 
-		// 计算可租开始时间
+		// 判断是否跨天
 		String fs = map.get("freeTimeStartFlag").toString();
-		fs = MyTextUtils.noSpace(fs);
+		String fe = map.get("freeTimeEndFlag").toString();
+
+		// 计算可租开始时间
+		// fs = MyTextUtils.noSpace(fs);
 		int hs = Integer.parseInt(fs.split(":")[0]);
 		int ms = Integer.parseInt(fs.split(":")[1]);
-		this.freeTimeStartFlag = hs * 12 + countTime(ms);
 
 		// 计算可租结束时间
-		String fe = map.get("freeTimeEndFlag").toString();
 		int he = Integer.parseInt(fe.split(":")[0]);
 		int me = Integer.parseInt(fe.split(":")[1]);
-		this.freeTimeSize = he * 12 + countTime(me);
+
+		if (he - hs < 0) {
+			isKuaTian = true;
+
+			// 第一段时间
+			kuatianE = he * 12 + countTime(me);
+			// 第二段时间
+			kuatianS2 = hs * 12 + countTime(ms);
+			// Log.e("ddd", kuatianS2 + "");
+
+		} else {
+			isKuaTian = false;
+			this.freeTimeStartFlag = hs * 12 + countTime(ms);
+			this.freeTimeSize = he * 12 + countTime(me);
+		}
 
 		// 计算已租时间
 		ArrayList<HashMap<String, String>> s = new ArrayList<HashMap<String, String>>();
-		s = (ArrayList<HashMap<String, String>>) map.get("TIME_LIST");
-		if (s != null) {
-			for (HashMap<String, String> temp : s) {
-				HashMap<String, String> hashmap = new HashMap<String, String>();
-				hashmap.put("TYPE", temp.get("TYPE"));
-				hashmap.put("BEGIN_TIME", temp.get("BEGIN_TIME"));
-				hashmap.put("END_TIME", temp.get("END_TIME"));
-				hashmap.put("DAY", temp.get("DAY"));
-				timelineBookList.add(hashmap);
+		if (s.size() > 0) {
+			s = (ArrayList<HashMap<String, String>>) map.get("TIME_LIST");
+			if (s != null) {
+				for (HashMap<String, String> temp : s) {
+					HashMap<String, String> hashmap = new HashMap<String, String>();
+					hashmap.put("TYPE", temp.get("TYPE"));
+					hashmap.put("BEGIN_TIME", temp.get("BEGIN_TIME"));
+					hashmap.put("END_TIME", temp.get("END_TIME"));
+					hashmap.put("DAY", temp.get("DAY"));
+					timelineBookList.add(hashmap);
+				}
 			}
 		}
-
 		postInvalidate();
 	}
 
@@ -166,8 +189,8 @@ public class TimelineView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		Log.e("ondraw=======", "ondraw");
-		Log.e("freeTimeStartFlag", freeTimeStartFlag + "");
+		// Log.e("ondraw=======", "ondraw");
+		// Log.e("freeTimeStartFlag", freeTimeStartFlag + "");
 
 		// 24小时时间轴 第一根
 		mPaint.setColor(Color.rgb(232, 237, 240));
@@ -179,13 +202,15 @@ public class TimelineView extends View {
 
 		// 绘制文字
 		mPaint.setTextAlign(Paint.Align.CENTER);
-		mPaint.setTextSize(23);
+		mPaint.setTextSize(24);
 		mPaint.setColor(Color.rgb(116, 122, 124));
 		for (int i = 0; i < hour.length; i++) {
 			int spaceSize = getMeasuredWidth() / 24 * 3;
 			String s = hour[i];
 			if (i == 0) {
 				canvas.drawText(s, 10, 85, mPaint);
+			} else if (i == 8) {
+				canvas.drawText(s, spaceSize * i - 15, 85, mPaint);
 			} else {
 				canvas.drawText(s, spaceSize * i, 85, mPaint);
 			}
@@ -202,13 +227,25 @@ public class TimelineView extends View {
 		int spaceSize = getMeasuredWidth() / (24 * 12);
 		int sss = spaceSize * freeTimeStartFlag;
 		int eee = spaceSize * freeTimeSize;
-		Log.e("sss=======", "" + sss + "----" + eee);
+		// Log.e("sss=======", "" + sss + "----" + eee);
 		mPaint.setColor(Color.rgb(4, 177, 119));// 绿色
 		mPaint.setAlpha(80);
-		if (freeTimeStartFlag != -1 && freeTimeSize != -1) {
-			canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50), mPaint);
-			canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize, 150), mPaint);
 
+		if (isKuaTian) {
+			// 今天轴
+			canvas.drawRect(new Rect(spaceSize * kuatianS, 0, spaceSize * kuatianE, 50), mPaint);
+			canvas.drawRect(new Rect(spaceSize * kuatianS2, 0, getMeasuredWidth() - getPaddingLeft()
+					- getPaddingRight(), 50), mPaint);
+			// 明天轴
+			canvas.drawRect(new Rect(spaceSize * kuatianS, 100, spaceSize * kuatianE, 150), mPaint);
+			canvas.drawRect(new Rect(spaceSize * kuatianS2, 100, getMeasuredWidth() - getPaddingLeft()
+					- getPaddingRight(), 150), mPaint);
+		} else {
+			if (freeTimeStartFlag != -1 && freeTimeSize != -1) {
+				canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50), mPaint);
+				canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize, 150),
+						mPaint);
+			}
 		}
 
 		// 已租时间
