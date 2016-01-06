@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bepo.R;
+import com.bepo.bean.ResultBean;
 import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
@@ -30,6 +31,8 @@ import com.okhttp.OkHttpUtils;
 import com.okhttp.StringCallback;
 import com.squareup.okhttp.Request;
 
+import de.greenrobot.event.EventBus;
+
 public class CarPortOrderDetails extends BaseAct {
 
 	TextView tvOrderNumber;
@@ -39,14 +42,14 @@ public class CarPortOrderDetails extends BaseAct {
 	public static TextView tvQuan;
 
 	RelativeLayout rlYue, rlSubmit, rlQuan;
-	ImageView ivduihao_yue;
-	Boolean isUseYue = true;
+	static ImageView ivduihao_yue;
+	Boolean isUseYue = false;
 
 	static LinearLayout linQuan;
 
 	String code;
 	static String chitCode = "";// 代金券码
-	String PayPwd = "123456";// 余额支付密码
+	static String PayPwd = "";// 余额支付密码
 	Map<String, String> detailMap = new HashMap<String, String>();
 
 	@Override
@@ -56,17 +59,14 @@ public class CarPortOrderDetails extends BaseAct {
 		setContentView(R.layout.carport_order_detail);
 		getTopBar("确认订单");
 		code = (String) getIntent().getExtras().get("code");
+
 		initView();
 		getData();
 
 	}
 
-	public static void dimissDilaog() {
-		dimissDilaog();
-	}
-
 	private void initView() {
-
+		EventBus.getDefault().register(this);
 		ivduihao_yue = (ImageView) this.findViewById(R.id.ivduihao_yue);
 		linQuan = (LinearLayout) this.findViewById(R.id.linQuan);
 		linQuan.setVisibility(View.GONE);
@@ -104,9 +104,10 @@ public class CarPortOrderDetails extends BaseAct {
 					isUseYue = false;
 					PayPwd = "";
 				} else {
-					ivduihao_yue.setVisibility(View.VISIBLE);
+
 					isUseYue = true;
-					PayPwd = "123456";
+					Intent mIntent = new Intent(CarPortOrderDetails.this, PayPasswordDialog.class);
+					startActivity(mIntent);
 				}
 
 			}
@@ -117,19 +118,11 @@ public class CarPortOrderDetails extends BaseAct {
 			@Override
 			public void onClick(View arg0) {
 
-				// String out_trade_no =
-				// detailMap.get("ORDER_NUMBER").trim().toString();
-				// String total_fee =
-				// detailMap.get("PRICE_COUNT").trim().toString();
-				// showDialog();
-				// WXPayUtils mWXPayUtils = new WXPayUtils(out_trade_no,
-				// total_fee);
-
-				Log.e("pay==========", "orderCode=" + tvOrderNumber.getText().toString() + "  chitCode="
+				Log.e("提交服务器支付参数----", "orderCode=" + tvOrderNumber.getText().toString() + "  chitCode="
 						+ chitCode + " Paypwd=" + PayPwd);
+
 				showDialog();
 				String url = PathConfig.ADDRESS + "/trad/order/payAdd";
-
 				OkHttpUtils.post().url(url).addParams("clientkey", PathConfig.clientkey)
 						.addParams("orderCode", code).addParams("chitCode", chitCode).addParams("PayPwd", PayPwd)
 						.addParams("payType", "weChatPay").build().execute(new MyStringCallback());
@@ -149,26 +142,31 @@ public class CarPortOrderDetails extends BaseAct {
 		@Override
 		public void onResponse(String response) {
 			dismissDialog();
-			// ToastUtils.showSuperToastAlert(getApplicationContext(),
-			// response);
 
 			HashMap<String, String> statusMap = (HashMap<String, String>) JSON.parseObject(response,
 					new TypeReference<Map<String, String>>() {
 					});
 
-			if (statusMap.get("payFlag").equals("false")) {
-				ToastUtils.showSuperToastAlertGreen(getApplicationContext(), "支付成功");
-				finish();
-			} else {
+			if (statusMap.get("status").equals("true")) {
 
-				String out_trade_no = detailMap.get("ORDER_NUMBER").trim().toString();
-				String total_fee = detailMap.get("PRICE_COUNT").trim().toString();
-				showDialog();
-				WXPayUtils mWXPayUtils = new WXPayUtils(out_trade_no, total_fee);
+				if (statusMap.get("payFlag").equals("false")) {
+
+					Intent mIntent6 = new Intent(CarPortOrderDetails.this, PaySucess.class);
+					mIntent6.putExtra("orderNumber", detailMap.get("ORDER_NUMBER"));
+					startActivity(mIntent6);
+					finish();
+				} else {
+
+					String out_trade_no = detailMap.get("ORDER_NUMBER").trim().toString();
+					String total_fee = detailMap.get("PRICE_COUNT").trim().toString();
+					showDialog();
+					WXPayUtils mWXPayUtils = new WXPayUtils(out_trade_no, total_fee);
+				}
+			} else {
+				ToastUtils.showSuperToastAlert(getApplicationContext(), statusMap.get("info"));
 			}
 
 		}
-
 	}
 
 	private void getYue() {
@@ -228,4 +226,22 @@ public class CarPortOrderDetails extends BaseAct {
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 	}
 
+	public void onEventMainThread(ResultBean event) {
+		if (event.getStatus().equals("0")) {
+			Intent mIntent6 = new Intent(CarPortOrderDetails.this, PaySucess.class);
+			mIntent6.putExtra("orderNumber", detailMap.get("ORDER_NUMBER"));
+			startActivity(mIntent6);
+			finish();
+		} else if (event.getStatus().equals("-2")) {
+			dismissDialog();
+			ToastUtils.showSuperToastAlertGreen(getApplicationContext(), "用户取消支付");
+		}
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
 }

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import android.R.string;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,7 +23,6 @@ import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
 import com.bepo.core.VolleyCommonPost;
 import com.bepo.utils.MyTextUtils;
-import com.dykj.diary.DiarySubmit;
 import com.github.johnpersano.supertoasts.util.ToastUtils;
 
 public class SubmitParkOwnerInfo extends BaseAct {

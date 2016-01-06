@@ -8,27 +8,27 @@ package com.kyleduo.switchbutton;
 
 public final class R {
 	public static final class attr {
-		public static final int animationVelocity = 0x7f01000e;
-		public static final int insetBottom = 0x7f010014;
-		public static final int insetLeft = 0x7f010011;
-		public static final int insetRight = 0x7f010012;
-		public static final int insetTop = 0x7f010013;
-		public static final int measureFactor = 0x7f010010;
-		public static final int offColor = 0x7f01000b;
-		public static final int offDrawable = 0x7f010001;
-		public static final int onColor = 0x7f01000a;
-		public static final int onDrawable = 0x7f010000;
-		public static final int radius = 0x7f01000f;
-		public static final int thumbColor = 0x7f01000c;
-		public static final int thumbDrawable = 0x7f010002;
-		public static final int thumbPressedColor = 0x7f01000d;
-		public static final int thumb_height = 0x7f010009;
-		public static final int thumb_margin = 0x7f010003;
-		public static final int thumb_marginBottom = 0x7f010005;
-		public static final int thumb_marginLeft = 0x7f010006;
-		public static final int thumb_marginRight = 0x7f010007;
-		public static final int thumb_marginTop = 0x7f010004;
-		public static final int thumb_width = 0x7f010008;
+		public static final int animationVelocity = 0x7f010089;
+		public static final int insetBottom = 0x7f01008f;
+		public static final int insetLeft = 0x7f01008c;
+		public static final int insetRight = 0x7f01008d;
+		public static final int insetTop = 0x7f01008e;
+		public static final int measureFactor = 0x7f01008b;
+		public static final int offColor = 0x7f010086;
+		public static final int offDrawable = 0x7f01007c;
+		public static final int onColor = 0x7f010085;
+		public static final int onDrawable = 0x7f01007b;
+		public static final int radius = 0x7f01008a;
+		public static final int thumbColor = 0x7f010087;
+		public static final int thumbDrawable = 0x7f01007d;
+		public static final int thumbPressedColor = 0x7f010088;
+		public static final int thumb_height = 0x7f010084;
+		public static final int thumb_margin = 0x7f01007e;
+		public static final int thumb_marginBottom = 0x7f010080;
+		public static final int thumb_marginLeft = 0x7f010081;
+		public static final int thumb_marginRight = 0x7f010082;
+		public static final int thumb_marginTop = 0x7f01007f;
+		public static final int thumb_width = 0x7f010083;
 	}
 	public static final class drawable {
 		public static final int ic_launcher = 0x7f02012c;
@@ -42,15 +42,15 @@ public final class R {
 		public static final int md_thumb = 0x7f0201cd;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f080000;
+		public static final int app_name = 0x7f0b0010;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f090000;
-		public static final int AppTheme = 0x7f090001;
-		public static final int MD = 0x7f090002;
+		public static final int AppBaseTheme = 0x7f0c009b;
+		public static final int AppTheme = 0x7f0c009c;
+		public static final int MD = 0x7f0c009d;
 	}
 	public static final class styleable {
-		public static final int[] SwitchButton = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011, 0x7f010012, 0x7f010013, 0x7f010014 };
+		public static final int[] SwitchButton = { 0x7f01007b, 0x7f01007c, 0x7f01007d, 0x7f01007e, 0x7f01007f, 0x7f010080, 0x7f010081, 0x7f010082, 0x7f010083, 0x7f010084, 0x7f010085, 0x7f010086, 0x7f010087, 0x7f010088, 0x7f010089, 0x7f01008a, 0x7f01008b, 0x7f01008c, 0x7f01008d, 0x7f01008e, 0x7f01008f };
 		public static final int SwitchButton_animationVelocity = 14;
 		public static final int SwitchButton_insetBottom = 20;
 		public static final int SwitchButton_insetLeft = 17;

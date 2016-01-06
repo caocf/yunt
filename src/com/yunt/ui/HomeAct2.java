@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -48,6 +49,7 @@ import com.bepo.R;
 import com.bepo.core.ApplicationController;
 import com.bepo.core.BaseAct;
 import com.bepo.core.PathConfig;
+import com.bepo.utils.AMapUtil;
 import com.bepo.utils.MyTextUtils;
 import com.bepo.view.TimelineView;
 import com.daimajia.androidanimations.library.Techniques;
@@ -57,6 +59,7 @@ import com.github.johnpersano.supertoasts.util.ToastUtils;
 public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarkerClickListener,
 		OnMapLoadedListener, OnLocationGetListener, OnClickListener {
 
+	private Context context = this;
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 
@@ -101,7 +104,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 	String juli = "";
 
 	TimelineView tl;
-	Boolean nowIsSiren = true;
+	public static Boolean nowIsSiren = true;
 	Boolean isFisrt = true;
 
 	// 个人弹出框
@@ -117,6 +120,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 
 	// 商业弹出框
 	RelativeLayout map_pop_b;
+	TextView tvREMARKS;
 	TextView tvHoursb;
 	TextView tvMonthb;
 	TextView tvParkAddressb;
@@ -142,6 +146,15 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		mLocationTask = LocationTask.getInstance(getApplicationContext());
 		mLocationTask.setOnLocationGetListener(this);
 		mRegeocodeTask = new RegeocodeTask(getApplicationContext());
+		
+		if (!AMapUtil.isNetworkConnected(context)) {
+			ToastUtils.showSuperToastAlert(getApplicationContext(), "没有可用网络");
+		} else {
+			if (!AMapUtil.isOPen(context)) {
+				ToastUtils.showSuperToastAlert(getApplicationContext(), "为了保证定位质量,请打开 GPS");
+			}
+		}
+
 	}
 
 	private void initMapPop() {
@@ -195,6 +208,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 	private void initBusinessMapPop() {
 		map_pop_b = (RelativeLayout) findViewById(R.id.map_pop_business);
 
+		tvREMARKS = (TextView) this.findViewById(R.id.tvREMARKS);
 		tvHoursb = (TextView) this.findViewById(R.id.tvHoursb);
 		tvMonthb = (TextView) this.findViewById(R.id.tvMonthb);
 		tvParkAddressb = (TextView) this.findViewById(R.id.tvParkAddressb);
@@ -385,11 +399,24 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		temp = (HashMap<String, String>) marker.getObject();
 		code = temp.get("CODE");
 
+		tvREMARKS.setText(temp.get("REMARKS"));
 		tvHoursb.setText(temp.get("PRICE_HOUR") + "元/小时,");
 		tvMonthb.setText(temp.get("PRICE_MONTH") + "元/月");
+
+		if (temp.get("CODE_TRAD_STATUS").equals("1898")) {
+			tvREMARKS.setVisibility(View.VISIBLE);
+			tvHoursb.setVisibility(View.GONE);
+			tvMonthb.setVisibility(View.GONE);
+		} else {
+			tvREMARKS.setVisibility(View.GONE);
+			tvHours.setVisibility(View.VISIBLE);
+			tvMonth.setVisibility(View.VISIBLE);
+		}
+
 		tvParkAddressb.setText(temp.get("CAR_PARK_NAME"));
 		tvAddressDesb.setText(temp.get("ADDRESS"));
-		tvNowPark.setText(temp.get("NOW_PARK"));
+		// tvNowPark.setText(temp.get("NOW_PARK"));
+		tvNowPark.setText(temp.get("PARKS_NUM"));
 
 		Double ey = Double.valueOf(temp.get("POSITION_Y"));
 		Double ex = Double.valueOf(temp.get("POSITION_X"));
@@ -399,7 +426,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		float floats = AMapUtils.calculateLineDistance(locationPosition, mEndPosition);
 		int i = (int) floats;
 		if (i - 1000 > 0) {
-			juli = i / 100 + "km";
+			juli = i / 1000 + "km";
 		} else {
 			juli = i + "m";
 		}
@@ -440,7 +467,7 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		float floats = AMapUtils.calculateLineDistance(locationPosition, mEndPosition);
 		int i = (int) floats;
 		if (i - 1000 > 0) {
-			juli = i / 100 + "km";
+			juli = i / 1000 + "km";
 		} else {
 			juli = i + "m";
 		}
@@ -790,6 +817,8 @@ public class HomeAct2 extends BaseAct implements OnCameraChangeListener, OnMarke
 		// 我的订单
 		case R.id.linOrder:
 			Intent intent3 = new Intent(this, MyOrderList.class);
+			// Intent intent3 = new Intent(this,
+			// MyOrderList4RecyclerView.class);
 			startActivity(intent3);
 			break;
 

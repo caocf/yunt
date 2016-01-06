@@ -86,7 +86,7 @@ public class ParkDetailAct2b extends BaseAct implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.park_detail_b);
-		getTopBar("车场详情");
+		getTopBar("车位租用");
 		Code = getIntent().getExtras().get("code").toString();
 		initView();
 		getData(Code);
@@ -212,8 +212,10 @@ public class ParkDetailAct2b extends BaseAct implements OnClickListener {
 		tvTotal = (TextView) this.findViewById(R.id.tvTotal);// 总价那里显示的总数
 
 		tvTimezu = (TextView) this.findViewById(R.id.tvTimezu);// 租赁起始时间
-		tvTimezu.setText(DateFormat.format("yyyy-MM-dd kk:mm", Calendar.getInstance().getTime()).toString());
-		BeginTime = DateFormat.format("yyyy-MM-dd kk:mm", Calendar.getInstance().getTime()).toString();
+		// tvTimezu.setText(DateFormat.format("yyyy-MM-dd kk:mm",
+		// Calendar.getInstance().getTime()).toString());
+		// BeginTime = DateFormat.format("yyyy-MM-dd kk:mm",
+		// Calendar.getInstance().getTime()).toString();
 
 		etCount = (EditText) this.findViewById(R.id.etCount);
 
@@ -368,19 +370,24 @@ public class ParkDetailAct2b extends BaseAct implements OnClickListener {
 	}
 
 	public static void setTimeZu(String s) {
-		tvTimezu.setText(s);
-		BeginTime = s;
+
+		String ss = s.replace("点", "").replace("分", "");
+		tvTimezu.setText(ss);
+		BeginTime = s.replace("点", "").replace("分", "");
 		jisuanTotal();
 	}
 
 	private void submitData() {
-		showDialog();
-
+	
+		if (MyTextUtils.isEmpty(BeginTime)) {
+			ToastUtils.showSuperToastAlert(ParkDetailAct2b.this, "请选择租用开始时间");
+			return;
+		}
 		if (MyTextUtils.isEmpty(PlateNumber)) {
 			ToastUtils.showSuperToastAlert(ParkDetailAct2b.this, "请选择或输入您的车牌号");
 			return;
 		}
-
+		showDialog();
 		Log.e("canshu", "ReleaseParkCode:" + detailMap.get("CODE") + "," + "BeginTime:" + BeginTime + ","
 				+ "CodeRentType:" + CodeRentType + ",RentNumber:" + RentNumber + ",PlateNumber:" + PlateNumber);
 
@@ -409,7 +416,6 @@ public class ParkDetailAct2b extends BaseAct implements OnClickListener {
 					finish();
 				} else {
 					ToastUtils.showSuperToastAlert(ParkDetailAct2b.this, message.get("info"));
-					finish();
 				}
 				dismissDialog();
 

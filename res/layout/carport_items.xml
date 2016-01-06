@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/bg_listitem_shot"
@@ -23,13 +23,15 @@
                 android:id="@+id/tvHourPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="10元/时"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tvMonthPirce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
+                android:text="10元/月"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -43,8 +45,18 @@
                 android:id="@+id/tvAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="我是地址"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="5dp"
+            android:text="我是地址描述我是地址描述我是地址描述我是地址描述"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </RelativeLayout>

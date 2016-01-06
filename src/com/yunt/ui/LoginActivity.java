@@ -102,14 +102,6 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 
 			}
 		});
-		// 生成广播处理
-		mSMSBroadcastReceiver = new SMSBroadcastReceiver();
-
-		// 实例化过滤器并设置要过滤的广播
-		IntentFilter intentFilter = new IntentFilter(ACTION);
-		intentFilter.setPriority(Integer.MAX_VALUE);
-		// 注册广播
-		this.registerReceiver(mSMSBroadcastReceiver, intentFilter);
 
 		mSMSBroadcastReceiver.setOnReceivedMessageListener(new SMSBroadcastReceiver.MessageListener() {
 			@Override
@@ -160,6 +152,14 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 			recLen = 60;
 			handler.sendEmptyMessageDelayed(1, 60 * 1000);
 			getAuthCode(phone);
+			// 生成广播处理
+			mSMSBroadcastReceiver = new SMSBroadcastReceiver();
+
+			// 实例化过滤器并设置要过滤的广播
+			IntentFilter intentFilter = new IntentFilter(ACTION);
+			intentFilter.setPriority(Integer.MAX_VALUE);
+			// 注册广播
+			this.registerReceiver(mSMSBroadcastReceiver, intentFilter);
 			break;
 		case R.id.linBack:
 			LoginActivity.this.finish();
@@ -191,7 +191,8 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 					}
 					getCurrentAccountInfo();// 因为接口里边没有登录时返回相关信息的方法,这里只能通过
 					// clientkey 再把推送需要的 Alias 值拿过来
-					ToastUtils.showSuperToastAlertGreen(LoginActivity.this, "欢迎回来");
+					// ToastUtils.showSuperToastAlertGreen(LoginActivity.this,
+					// "d");
 					finish();
 
 				} else {
@@ -209,14 +210,14 @@ public class LoginActivity extends BaseAct implements OnClickListener {
 			}
 		});
 
-		stringRequest.setRetryPolicy(new DefaultRetryPolicy(200* 1000, 1, 1.0f));
+		stringRequest.setRetryPolicy(new DefaultRetryPolicy(200 * 1000, 1, 1.0f));
 		ApplicationController.getInstance().addToRequestQueue(stringRequest);
 
 	}
 
 	private void getAuthCode(String phone) {
 
-		String url = PathConfig.ADDRESS + "/base/buser/code/send?phone=" + phone;
+		String url = PathConfig.ADDRESS + "/base/buser/code/send?type=0&phone=" + phone;
 		StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {

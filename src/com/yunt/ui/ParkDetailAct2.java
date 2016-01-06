@@ -1,7 +1,6 @@
 package com.yunt.ui;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -82,7 +80,7 @@ public class ParkDetailAct2 extends BaseAct implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.park_detail);
-		getTopBar("车位详情");
+		getTopBar("车位租用");
 		Code = getIntent().getExtras().get("code").toString();
 		initView();
 		getData(Code);
@@ -210,8 +208,10 @@ public class ParkDetailAct2 extends BaseAct implements OnClickListener {
 		tvTotal = (TextView) this.findViewById(R.id.tvTotal);// 总价那里显示的总数
 
 		tvTimezu = (TextView) this.findViewById(R.id.tvTimezu);// 租赁起始时间
-		tvTimezu.setText(DateFormat.format("yyyy-MM-dd kk:mm", Calendar.getInstance().getTime()).toString());
-		BeginTime = DateFormat.format("yyyy-MM-dd kk:mm", Calendar.getInstance().getTime()).toString();
+		// tvTimezu.setText(DateFormat.format("yyyy-MM-dd kk:mm",
+		// Calendar.getInstance().getTime()).toString());
+		// BeginTime = DateFormat.format("yyyy-MM-dd kk:mm",
+		// Calendar.getInstance().getTime()).toString();
 
 		etCount = (EditText) this.findViewById(R.id.etCount);
 
@@ -339,19 +339,25 @@ public class ParkDetailAct2 extends BaseAct implements OnClickListener {
 	}
 
 	public static void setTimeZu(String s) {
-		tvTimezu.setText(s);
-		BeginTime = s;
+
+		String ss = s.replace("点", "").replace("分", "");
+		tvTimezu.setText(ss);
+		BeginTime = s.replace("点", "").replace("分", "");
 		jisuanTotal();
 	}
 
 	private void submitData() {
-		showDialog();
+	
 
+		if (MyTextUtils.isEmpty(BeginTime)) {
+			ToastUtils.showSuperToastAlert(ParkDetailAct2.this, "请选择租用开始时间");
+			return;
+		}
 		if (MyTextUtils.isEmpty(PlateNumber)) {
 			ToastUtils.showSuperToastAlert(ParkDetailAct2.this, "请选择或输入您的车牌号");
 			return;
 		}
-
+		showDialog();
 		Log.e("canshu", "ReleaseParkCode:" + detailMap.get("CODE") + "," + "BeginTime:" + BeginTime + ","
 				+ "CodeRentType:" + CodeRentType + ",RentNumber:" + RentNumber + ",PlateNumber:" + PlateNumber);
 
@@ -380,7 +386,7 @@ public class ParkDetailAct2 extends BaseAct implements OnClickListener {
 					finish();
 				} else {
 					ToastUtils.showSuperToastAlert(ParkDetailAct2.this, message.get("info"));
-					finish();
+//					finish();
 				}
 				dismissDialog();
 

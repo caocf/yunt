@@ -44,39 +44,52 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="请选择起租时间"
+                android:text="请选择租用时段的起点"
                 android:textColor="@color/gray_user_bg"
                 android:textSize="13sp" />
 
-            <NumberPicker
-                android:id="@+id/numberPicker2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlSubmit"
-            android:layout_width="fill_parent"
-            android:layout_height="40dip"
-            android:layout_below="@id/lin2"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_big"
-            android:padding="6dp" >
-
-            <TextView
-                android:id="@+id/tvlogin"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="提交"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </RelativeLayout>
+                android:orientation="horizontal" >
+
+                <NumberPicker
+                    android:id="@+id/numberPicker2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <NumberPicker
+                    android:id="@+id/numberPicker3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="30dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSubmit"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:layout_below="@id/lin2"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_big"
+                android:padding="6dp" >
+
+                <TextView
+                    android:id="@+id/tvlogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="提交"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

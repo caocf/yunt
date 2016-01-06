@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.bepo.utils.MyTextUtils;
+import com.github.johnpersano.supertoasts.util.ToastUtils;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -49,16 +55,15 @@ public class TimelineView extends View {
 		super(context, attrs);
 		mPaint = new Paint();
 		mPaint.setAntiAlias(true);
-		// this.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// postInvalidate();
-		// Log.e("2=====", "2=====");
-		// Log.e("freeTimeStartFlag", freeTimeStartFlag + "");
-		// }
-		//
-		// });
+		this.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				postInvalidate();
+				ToastUtils.showSuperToastAlertGreen(getContext(), "蓝色区域为可租,灰色区域为不可租");
+			}
+
+		});
 	}
 
 	public TimelineView(Context context, AttributeSet attrs, int defStyle) {
@@ -105,6 +110,7 @@ public class TimelineView extends View {
 		int he = Integer.parseInt(fe.split(":")[0]);
 		int me = Integer.parseInt(fe.split(":")[1]);
 
+		// 如果结束时间的时针(取整)小于开始时间的分针(取整),那么就是跨天
 		if (he - hs < 0) {
 			isKuaTian = true;
 
@@ -118,33 +124,48 @@ public class TimelineView extends View {
 			isKuaTian = false;
 			this.freeTimeStartFlag = hs * 12 + countTime(ms);
 			this.freeTimeSize = he * 12 + countTime(me);
+			Log.e("freetimesize====", freeTimeSize + "");
 		}
 
 		// 计算已租时间
 		ArrayList<HashMap<String, String>> s = new ArrayList<HashMap<String, String>>();
-		if (s.size() > 0) {
-			s = (ArrayList<HashMap<String, String>>) map.get("TIME_LIST");
-			if (s != null) {
-				for (HashMap<String, String> temp : s) {
-					HashMap<String, String> hashmap = new HashMap<String, String>();
-					hashmap.put("TYPE", temp.get("TYPE"));
-					hashmap.put("BEGIN_TIME", temp.get("BEGIN_TIME"));
-					hashmap.put("END_TIME", temp.get("END_TIME"));
-					hashmap.put("DAY", temp.get("DAY"));
-					timelineBookList.add(hashmap);
-				}
+		if (!MyTextUtils.isEmpty(map.get("bookList").toString())) {
+			s = (ArrayList<HashMap<String, String>>) JSON.parseObject(map.get("bookList").toString(),
+					new TypeReference<ArrayList<HashMap<String, String>>>() {
+					});
+		}
+		timelineBookList.clear();
+		if (s != null) {
+			for (HashMap<String, String> temp : s) {
+				HashMap<String, String> hashmap = new HashMap<String, String>();
+				hashmap.put("TYPE", temp.get("TYPE"));
+				hashmap.put("BEGIN_TIME", temp.get("BEGIN_TIME"));
+				hashmap.put("END_TIME", temp.get("END_TIME"));
+				hashmap.put("DAY", temp.get("DAY"));
+				timelineBookList.add(hashmap);
 			}
 		}
+
 		postInvalidate();
 	}
 
+	// 计算[分针]所占的时间轴比例
+	// 算法说明
+	//
 	private int countTime(int i) {
 		if (i - 10 < 0) {
+
+			// 初始值为0的返回0
+			if (i == 0) {
+				return 0;
+			}
+			// 初始分针不足五分钟的 按五分钟计算,所占面积提现为1格
 			if (i <= 5) {
 				return 1;
 			} else {
 				return 2;
 			}
+
 		} else {
 			int h = i / 10 * 2;
 			int m = i % 10 <= 5 ? 1 : 2;
@@ -189,28 +210,23 @@ public class TimelineView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		// Log.e("ondraw=======", "ondraw");
-		// Log.e("freeTimeStartFlag", freeTimeStartFlag + "");
-
 		// 24小时时间轴 第一根
 		mPaint.setColor(Color.rgb(232, 237, 240));
 		mPaint.setAlpha(255); // 设置透明度
 		mPaint.setStyle(Style.FILL);
 		canvas.drawRect(new Rect(0, 0, getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), 50), mPaint);// 左边
 
-		// Log.e("getMeasuredWidth=======", "" + getMeasuredWidth()); // 上边
-
 		// 绘制文字
 		mPaint.setTextAlign(Paint.Align.CENTER);
-		mPaint.setTextSize(24);
+		mPaint.setTextSize(26);
 		mPaint.setColor(Color.rgb(116, 122, 124));
 		for (int i = 0; i < hour.length; i++) {
-			int spaceSize = getMeasuredWidth() / 24 * 3;
+			int spaceSize = (getMeasuredWidth() - getPaddingLeft() - getPaddingRight()) / 24 * 3;
 			String s = hour[i];
 			if (i == 0) {
 				canvas.drawText(s, 10, 85, mPaint);
 			} else if (i == 8) {
-				canvas.drawText(s, spaceSize * i - 15, 85, mPaint);
+				canvas.drawText(s, spaceSize * i - 8, 85, mPaint);
 			} else {
 				canvas.drawText(s, spaceSize * i, 85, mPaint);
 			}
@@ -224,26 +240,25 @@ public class TimelineView extends View {
 		canvas.drawRect(new Rect(0, 100, getMeasuredWidth() - getPaddingLeft() - getPaddingRight(), 150), mPaint);// 左边
 
 		// 发布的时间
-		int spaceSize = getMeasuredWidth() / (24 * 12);
-		int sss = spaceSize * freeTimeStartFlag;
-		int eee = spaceSize * freeTimeSize;
-		// Log.e("sss=======", "" + sss + "----" + eee);
-		mPaint.setColor(Color.rgb(4, 177, 119));// 绿色
-		mPaint.setAlpha(80);
+		int tempint = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+		float spaceSize = (float) tempint / (24 * 12);
+		// mPaint.setColor(Color.rgb(4, 177, 119));// 绿色
+		mPaint.setColor(Color.rgb(37, 124, 254));// 蓝色
+		mPaint.setAlpha(100);
 
 		if (isKuaTian) {
 			// 今天轴
-			canvas.drawRect(new Rect(spaceSize * kuatianS, 0, spaceSize * kuatianE, 50), mPaint);
-			canvas.drawRect(new Rect(spaceSize * kuatianS2, 0, getMeasuredWidth() - getPaddingLeft()
+			canvas.drawRect(new RectF(spaceSize * kuatianS, 0, spaceSize * kuatianE, 50), mPaint);
+			canvas.drawRect(new RectF(spaceSize * kuatianS2, 0, getMeasuredWidth() - getPaddingLeft()
 					- getPaddingRight(), 50), mPaint);
 			// 明天轴
-			canvas.drawRect(new Rect(spaceSize * kuatianS, 100, spaceSize * kuatianE, 150), mPaint);
-			canvas.drawRect(new Rect(spaceSize * kuatianS2, 100, getMeasuredWidth() - getPaddingLeft()
+			canvas.drawRect(new RectF(spaceSize * kuatianS, 100, spaceSize * kuatianE, 150), mPaint);
+			canvas.drawRect(new RectF(spaceSize * kuatianS2, 100, getMeasuredWidth() - getPaddingLeft()
 					- getPaddingRight(), 150), mPaint);
 		} else {
 			if (freeTimeStartFlag != -1 && freeTimeSize != -1) {
-				canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50), mPaint);
-				canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize, 150),
+				canvas.drawRect(new RectF(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50), mPaint);
+				canvas.drawRect(new RectF(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize, 150),
 						mPaint);
 			}
 		}
@@ -268,38 +283,29 @@ public class TimelineView extends View {
 				if (temp.get("DAY").toString().equals("jin")) {
 
 					if (temp.get("TYPE").toString().equals("shi")) {
-						canvas.drawRect(new Rect(s * spaceSize, 0, e * spaceSize, 50), mPaint);
+						canvas.drawRect(new RectF(s * spaceSize, 0, e * spaceSize, 50), mPaint);
 					} else {
-						canvas.drawRect(new Rect(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50),
+						canvas.drawRect(new RectF(spaceSize * freeTimeStartFlag, 0, spaceSize * freeTimeSize, 50),
 								mPaint);
 					}
 
 				} else {
 
 					if (temp.get("TYPE").toString().equals("shi")) {
-						canvas.drawRect(new Rect(s * spaceSize, 100, e * spaceSize, 150), mPaint);
+						canvas.drawRect(new RectF(s * spaceSize, 100, e * spaceSize, 150), mPaint);
 					} else {
-						canvas.drawRect(
-								new Rect(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize, 150),
-								mPaint);
+						canvas.drawRect(new RectF(spaceSize * freeTimeStartFlag, 100, spaceSize * freeTimeSize,
+								150), mPaint);
 					}
 
 				}
 
 			}
 		}
-		// 直线轴
-		// mPaint.setColor(Color.rgb(116, 122, 124)); // 设置画笔颜色
-		// mPaint.setStrokeWidth((float) 1.0); // 设置线宽
-		// // canvas.drawLine(8, 30, 8, 30, mPaint); // 绘制直线
-		// canvas.drawLine(getMeasuredWidth() - getPaddingLeft(),
-		// getPaddingTop(), getMeasuredWidth()
-		// - getPaddingRight(), getMeasuredHeight() - getPaddingBottom(),
-		// mPaint);
 
 		// 当前时间
 		mPaint.setColor(Color.rgb(227, 61, 56));// 橘色
 		mPaint.setAlpha(220);
-		canvas.drawRect(new Rect(nowTimeFlag * spaceSize, 0, nowTimeFlag * spaceSize + 5, 50), mPaint);
+		canvas.drawRect(new RectF(nowTimeFlag * spaceSize, 0, nowTimeFlag * spaceSize + 5, 50), mPaint);
 	}
 }

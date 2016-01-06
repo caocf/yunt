@@ -23,7 +23,7 @@ import com.bepo.core.PathConfig;
 import com.bepo.utils.MyTextUtils;
 
 public class UserInfoSetting extends BaseAct {
-	RelativeLayout rlParkOwner, rlCarOwner;
+	RelativeLayout rlParkOwner, rlCarOwner, rlChepai, rlPwd;
 	TextView tvParkOwnerPhone, tvParkOwnerName, tvCarOwnerPhone, tvCarOwnerName;
 
 	Map<String, String> CurrentAccountMap = new HashMap<String, String>();
@@ -76,6 +76,30 @@ public class UserInfoSetting extends BaseAct {
 				intent.putExtra("ParkOwnerName", strParkOwnerName);
 				intent.putExtra("ParkOwnerPhone", strParkOwnerPhone);
 				intent.putExtra("Code", code);
+				startActivity(intent);
+
+			}
+		});
+
+		rlChepai = (RelativeLayout) this.findViewById(R.id.rlChepai);
+		rlChepai.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(UserInfoSetting.this, ChoosePlate4Modify.class);
+				startActivity(intent);
+
+			}
+		});
+
+		rlPwd = (RelativeLayout) this.findViewById(R.id.rlPwd);
+		rlPwd.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(UserInfoSetting.this, ChangPayPwd.class);
 				startActivity(intent);
 
 			}

@@ -85,9 +85,6 @@ public class NoPayListAdapter extends CustomAdapter {
 			viewCache.tvDanwei = (TextView) rowView.findViewById(R.id.tvDanwei);
 			viewCache.rlPay = (RelativeLayout) rowView.findViewById(R.id.rlPay);
 			viewCache.rlzxing = (RelativeLayout) rowView.findViewById(R.id.rlzxing);
-			viewCache.rlJieSuan = (RelativeLayout) rowView.findViewById(R.id.rlJieSuan);
-			viewCache.rlPingjia = (RelativeLayout) rowView.findViewById(R.id.rlPingjia);
-			viewCache.linBTN = (LinearLayout) rowView.findViewById(R.id.linBTN);
 
 			rowView.setTag(viewCache);
 		} else {
@@ -117,17 +114,24 @@ public class NoPayListAdapter extends CustomAdapter {
 			viewCache.tvParkName.setText(parkName);
 		}
 
-		if (!(null == data.get(position).get("PARK_NUMBER"))) {
+		if (MyTextUtils.isEmpty(data.get(position).get("PARK_NUMBER"))
+				&& MyTextUtils.isEmpty(data.get(position).get("PLATE"))) {
+			viewCache.tvParkNum.setText("进场自选");
+			// viewCache.linSiren.setVisibility(View.GONE);
+		} else {
 
-			String parkNum = data.get(position).get("PARK_NUMBER").toString();
+			String parkNum = "";
 			String ParkPlate = "";
 
-			if (!(null == data.get(position).get("PLATE"))) {
-				ParkPlate = data.get(position).get("PLATE").toString();
-				data.get(position).get("PLATE").toString();
+			if (!(null == data.get(position).get("PARK_NUMBER"))) {
+				parkNum = data.get(position).get("PARK_NUMBER");
 			}
 
+			if (!(null == data.get(position).get("PLATE"))) {
+				ParkPlate = data.get(position).get("PLATE");
+			}
 			viewCache.tvParkNum.setText(parkNum + " " + ParkPlate);
+
 		}
 
 		if (!(null == data.get(position).get("CODE_RENT_TYPE_NAME"))) {
@@ -147,26 +151,26 @@ public class NoPayListAdapter extends CustomAdapter {
 			viewCache.tvPriceCount.setText(data.get(position).get("PRICE_COUNT").toString());
 		}
 
-		viewCache.linBTN.setVisibility(View.GONE);
 		viewCache.rlPay.setVisibility(View.GONE);
+		viewCache.rlzxing.setVisibility(View.GONE);
 		if (getIsSelected().get(position).equals("待支付")) {
 			viewCache.rlPay.setVisibility(View.VISIBLE);
 		} else if (getIsSelected().get(position).equals("已支付")) {
-			viewCache.linBTN.setVisibility(View.VISIBLE);
+			viewCache.rlzxing.setVisibility(View.VISIBLE);
 		} else if (getIsSelected().get(position).equals("订单超时")) {
 
 		}
 
 		viewCache.tvStatus.setText(getIsSelected().get(position));
 
-		viewCache.rlJieSuan.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				jiesuan(data.get(position).get("CODE").toString());
-
-			}
-		});
+//		viewCache.rlJieSuan.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				jiesuan(data.get(position).get("CODE").toString());
+//
+//			}
+//		});
 		viewCache.rlPay.setOnClickListener(new OnClickListener() {
 
 			@Override

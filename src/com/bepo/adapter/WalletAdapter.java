@@ -65,16 +65,16 @@ public class WalletAdapter extends CustomAdapter {
 
 		if (!data.get(position).get("CODE_BILL_TYPE_NAME").equals("Ö§³ö")) {
 			viewCache.tvFuhao.setText("+");
-			viewCache.tvFuhao.setTextColor(context.getResources().getColor(R.color.ticket_red));
-
-			viewCache.tvMoney.setText(data.get(position).get("MONEY"));
-			viewCache.tvMoney.setTextColor(context.getResources().getColor(R.color.ticket_red));
-		} else {
-			viewCache.tvFuhao.setText("-");
 			viewCache.tvFuhao.setTextColor(context.getResources().getColor(R.color.tag_green));
 
 			viewCache.tvMoney.setText(data.get(position).get("MONEY"));
 			viewCache.tvMoney.setTextColor(context.getResources().getColor(R.color.tag_green));
+		} else {
+			viewCache.tvFuhao.setText("-");
+			viewCache.tvFuhao.setTextColor(context.getResources().getColor(R.color.ticket_red));
+
+			viewCache.tvMoney.setText(data.get(position).get("MONEY"));
+			viewCache.tvMoney.setTextColor(context.getResources().getColor(R.color.ticket_red));
 		}
 
 		rowView.setOnClickListener(new OnClickListener() {

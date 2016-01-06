@@ -113,6 +113,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linSiren"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -303,75 +304,41 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/calendar_divider" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
             android:orientation="horizontal" >
 
-            <LinearLayout
-                android:id="@+id/linBTN"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
+            <RelativeLayout
+                android:id="@+id/rlzxing"
+                android:layout_width="70dp"
+                android:layout_height="30dip"
+                android:layout_marginTop="10dp"
+                android:background="#409155" >
 
-                <RelativeLayout
-                    android:id="@+id/rlJieSuan"
-                    android:layout_width="70dp"
-                    android:layout_height="30dip"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#5E97D1" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="结算"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlPingjia"
-                    android:layout_width="70dp"
-                    android:layout_height="30dip"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#5E97D1" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="评价"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlzxing"
-                    android:layout_width="70dp"
-                    android:layout_height="30dip"
-                    android:layout_marginTop="10dp"
-                    android:background="#5E97D1" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="二维码"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                </RelativeLayout>
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="二维码"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rlPay"
                 android:layout_width="74dp"
                 android:layout_height="30dip"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#5E97D1" >
 
@@ -381,7 +348,7 @@
                     android:layout_centerInParent="true"
                     android:text="继续支付"
                     android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

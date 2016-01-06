@@ -61,7 +61,8 @@ public class NearCarPortListActivity extends BaseAct implements TextWatcher, OnC
 		if (HomeAct2.data.size() > 0) {
 			data = HomeAct2.data;
 		}
-		city = HomeAct.city;
+		
+		city = HomeAct2.city;
 		initView();
 
 	}

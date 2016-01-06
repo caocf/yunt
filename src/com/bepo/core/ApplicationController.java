@@ -23,6 +23,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.okhttp.OkHttpUtils;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.squareup.okhttp.OkHttpClient;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -75,6 +77,9 @@ public class ApplicationController extends Application {
 		// 装配单例对象
 		sInstance = this;
 
+		// 蒲公英 carsh 上传
+		PgyCrashManager.register(this);
+		
 		// 初始化图片加载工具
 		initImageUtils();
 

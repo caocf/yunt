@@ -3,6 +3,8 @@ package com.zxing;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +21,7 @@ public class EPQRAct extends BaseAct implements OnClickListener {
 
 	private TextView tvClose;
 	private TextView tvCode;
-	private ImageView qrImgImageView;
+	private ImageView qrImgImageView, barImgImageView;
 	private int CurrentTemp;
 
 	public String phone;
@@ -41,8 +43,11 @@ public class EPQRAct extends BaseAct implements OnClickListener {
 		if (intent != null && intent.getStringExtra("code") != null) {
 			code = intent.getStringExtra("code");
 		}
+		String regex = "(.{4})";
+		String codetext = code.replaceAll(regex, "$1  ");
 		tvCode = (TextView) this.findViewById(R.id.tvCode);
-		tvCode.setText(code);
+		tvCode.setText(codetext);
+
 		tvClose = (TextView) this.findViewById(R.id.tvClose);
 		tvClose.setOnClickListener(new OnClickListener() {
 
@@ -56,13 +61,26 @@ public class EPQRAct extends BaseAct implements OnClickListener {
 		});
 
 		qrImgImageView = (ImageView) this.findViewById(R.id.iv_qr_image);
+		barImgImageView = (ImageView) this.findViewById(R.id.iv_bar_image);
 
 		try {
 			String contentString = code;
 			if (!contentString.equals("")) {
 
-				Bitmap qrCodeBitmap = EncodingHandler.createQRCode(contentString, 600);
+				DisplayMetrics dm = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(dm);
+				// int screenWidth = dm.widthPixels;
+				// int screenHeight = dm.heightPixels;
+				// Log.e("³ß´ç", screenWidth + " " + screenHeight);
+
+				// ¶þÎ¬Âë
+				Bitmap qrCodeBitmap = EncodingHandler.createQRCode(contentString, 800);
 				qrImgImageView.setImageBitmap(qrCodeBitmap);
+
+				// ÌõÐÎÂë
+				Bitmap barCodeBitmap = EncodingHandler.creatBarcode(this, contentString, 1000, 400, false);
+				barImgImageView.setImageBitmap(barCodeBitmap);
+
 			} else {
 				Toast.makeText(EPQRAct.this, "Text can not be empty", Toast.LENGTH_SHORT).show();
 			}
